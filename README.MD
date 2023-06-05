@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![image](https://github.com/stroud91/MeetUP/assets/119982061/dbe119ab-49d3-4c2e-b741-d3d9d0f03076)
+
 
 
 ## API Documentation
