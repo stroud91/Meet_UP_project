@@ -2,6 +2,7 @@
 
 ## Database Schema Design
 
+![image](https://github.com/stroud91/Meet_UP_project/assets/119982061/55e8bb33-4405-4c13-adb5-9ade32de08eb)
 
 
 
