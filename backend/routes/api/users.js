@@ -21,15 +21,15 @@ const validateSignup = [
   check('firstName')
     .exists({ checkFalsy: true })
     .isLength({ min: 2 })
-    .withMessage('First name is required with at least 2 characters.'),
+    .withMessage('First name is required with at least 2 characters. It cannot be your initials.'),
   check('lastName')
     .exists({ checkFalsy: true })
     .isLength({ min: 2 })
-    .withMessage('Last name is required with at least 2 characters.'),
+    .withMessage('Last name is required with at least 2 characters. It cannot be your initials.'),
   check('username')
     .not()
     .isEmail()
-    .withMessage('Username cannot be an email.'),
+    .withMessage('Username cannot be an email. Please provide a valid username.'),
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
