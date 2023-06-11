@@ -4,18 +4,22 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Venue extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
+
     static associate(models) {
+
+
       Venue.belongsTo(models.Group,{
         foreignKey:'groupId'
       })
     }
   }
   Venue.init({
+    groupId: {
+      type: DataTypes.INTEGER,
+      allowNull:false,
+
+    },
     address: {
       type: DataTypes.STRING
     },
@@ -28,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.DECIMAL
     },
-    lng: {
+    long: {
       type: DataTypes.DECIMAL
     },
     createdAt: {
@@ -36,11 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     updatedAt: {
       type:DataTypes.DATE
-    },
-    groupId: {
-      type: DataTypes.INTEGER,
-      allowNull:false,
-    },
+    }
   }, {
     sequelize,
     modelName: 'Venue',

@@ -2,29 +2,34 @@
 /** @type {import('sequelize-cli').Migration} */
 
 let options = {};
-if (config.dialect === 'postgres') {
-  options.type = Sequelize.ENUM('Online', 'In person');
-} else {
-  options.type = Sequelize.STRING;
-}
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable('Groups', {
+    await queryInterface.createTable('Groups', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      organizerId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'Users' },
+        allowNull:false
+      },
       name: {
         type: Sequelize.STRING
       },
       about: {
         type: Sequelize.TEXT
+      },
+      type: {
+        type: Sequelize.ENUM('Online', 'In person')
+      },
+      private: {
+        type: Sequelize.BOOLEAN
       },
       city: {
         type: Sequelize.STRING,
@@ -34,13 +39,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      organizerId: {
-        type: Sequelize.INTEGER,
-
+      createdAt: {
+        type: Sequelize.DATE
       },
-      type: options.type,
-      private: {
-        type: Sequelize.BOOLEAN
+      updatedAt: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -52,10 +55,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    },options);
+    }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Users";
-    return queryInterface.dropTable(options);
+    options.tableName = "Groups"
+    await queryInterface.dropTable(options);
   }
 };

@@ -11,7 +11,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     options.tableName = 'Groups';
 
-    return queryInterface.bulkInsert(options, [
+    await queryInterface.bulkInsert(options, [
       {
         organizerId: 1,
         name: "TORONTO ARTS & CULTURE",
@@ -217,7 +217,7 @@ module.exports = {
       },
       {
         organizerId: 9,
-        name: " Public Speaking NYC Online (Zoom) - Free Observation Session",
+        name: "Public Speaking NYC Online (Zoom) - Free Observation Session",
         about: `Overcome public speaking fear with gradual exposure, in a supportive environment. Observe a free trial to see if it's right for you.
 
         (Average class size: 15-20) Based out of New York City for 30 years, we are now offering these classes online to an international audience.
@@ -280,8 +280,11 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     options.tableName = 'Groups';
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ["TORONTO ARTS & CULTURE","New York Friends & Dance","New York Finance, Trading & Banking Meetup"] }
+    await queryInterface.bulkDelete(options, {
+      name: { [Op.in]: ["TORONTO ARTS & CULTURE","New York Friends & Dance","New York Finance, Trading & Banking Meetup",
+      "New York Pets Meetup","New Jersey Dog Play Group","Cat Lovers in Newport, NJ",
+      "Online Yoga","Trivia Online!","Online Language Exchange","Weekly Meditations (online)","Socialize with Internationals in New York (Online Meetup!)",
+      "Public Speaking NYC Online (Zoom) - Free Observation Session","Small Business Owners and Virtual Assistants in Action","Business+Startup+Networking"] }
     }, {});
   }
 };

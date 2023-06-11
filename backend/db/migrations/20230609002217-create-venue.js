@@ -1,5 +1,5 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up(queryInterface, Sequelize) {
 
-    return queryInterface.createTable('Venues', {
+    await queryInterface.createTable('Venues', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -33,7 +33,7 @@ module.exports = {
       },
       groupId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Groups' },
+        references: { model: 'Groups'},
         allowNull:false,
       },
       createdAt: {
@@ -56,6 +56,6 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "Venues";
-    return queryInterface.dropTable(options);
+    await queryInterface.dropTable(options);
   }
 };

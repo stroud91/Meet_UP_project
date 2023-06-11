@@ -3,15 +3,21 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Groups extends Model {
-    
+  class Group extends Model {
+
     static associate(models) {
-      Groups.belongsTo(models.User, {
+      
+      Group.belongsTo(models.User, {
         foreignKey: 'organizerId', as: "Organizer"
       })
+      Group.hasMany(models.Venue, {
+        foreignKey: 'groupId',
+        onDelete: "CASCADE", hooks: true
+      })
+
     }
   }
-  Groups.init({
+  Group.init({
     name: {
       type: DataTypes.STRING,
       validate: {
@@ -52,5 +58,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Group',
   });
-  return Groups;
+  return Group;
 };
