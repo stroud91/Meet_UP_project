@@ -10,27 +10,43 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         groupId: 1,
-        address: "",
-        city: "",
-        state: "",
-        lat: 34.0317,
-        lng: -118.6996,
+        address: "345 Way Lane",
+        city: "New York",
+        state: "NY",
+        lat: 40.7128,
+        lng: -74.0060,
       },
       {
         groupId: 2,
-        address: "",
-        city: "",
-        state: "",
-        lat: 33.8123,
-        lng: -117.9190,
+        address: "789 Circle Street",
+        city: "Jersey City",
+        state: "NJ",
+        lat: 40.7178,
+        lng: -74.0431,
       },
       {
         groupId: 3,
-        address: "",
-        city: "",
-        state: "",
-        lat: 40.7648,
-        lng: -73.9745,
+        address: "3456 One Way Lane",
+        city: "Basgen Ride",
+        state: "NJ",
+        lat: 39.9526,
+        lng: -75.1652,
+      },
+      {
+        groupId: 4,
+        address: "12 Street Lane",
+        city: "Jacksonville",
+        state: "FL",
+        lat: 30.3322,
+        lng: -81.6557,
+      },
+      {
+        groupId: 5,
+        address: "12 Street Lane",
+        city: "Monachie",
+        state: "NJ",
+        lat: 50.3322,
+        lng: -81.6557,
       }
     ], {});
   },
@@ -39,7 +55,7 @@ module.exports = {
     options.tableName = 'Venues';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      city: { [Op.in]: ['', '', ''] }
+      city: { [Op.in]: ['New York', 'Jersey City', 'Basgen Ride', 'Jacksonville', 'Monachie'] }
     }, {});
   }
 };
