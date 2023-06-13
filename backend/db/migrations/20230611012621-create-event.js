@@ -1,56 +1,67 @@
 'use strict';
-
 /** @type {import('sequelize-cli').Migration} */
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-
-    await queryInterface.createTable('Venues', {
+    await queryInterface.createTable('Events', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      venueId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: "Venues", key: "id"
+        }
+      },
       groupId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: "Groups", key: "id"
         },
-        onDelete: "CASCADE",
-        allowNull: false
+        onDelete: "CASCADE"
       },
-      address: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      city: {
-        type: Sequelize.STRING,
+      description: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
-      state: {
-        type: Sequelize.STRING,
+      type: {
+        type: Sequelize.ENUM({
+          values: ['Online', 'In person']
+        })
+      },
+      capacity: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
-      lat: {
-        type: Sequelize.DECIMAL(9, 7),
-        allowNull: false,
-        validate: {
-          min: -90,
-          max: 90
-        }
+      price: {
+        type: Sequelize.FLOAT,
+        allowNull: false
       },
-      long: {
-        type: Sequelize.DECIMAL(10, 7),
-        allowNull: false,
-        validate: {
-          min: -180,
-          max: 180
-        }
+      startDate: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      endDate: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -62,10 +73,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    },options);
+    }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Venues";
+    options.tableName = "Events"
     await queryInterface.dropTable(options);
   }
 };

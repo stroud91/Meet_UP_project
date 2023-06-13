@@ -1,56 +1,46 @@
 'use strict';
-
 /** @type {import('sequelize-cli').Migration} */
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-
-    await queryInterface.createTable('Venues', {
+    await queryInterface.createTable('Attendances', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      groupId: {
+      eventId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
-          model: "Groups", key: "id"
+          model: "Events",
+          key: "id"
         },
-        onDelete: "CASCADE",
-        allowNull: false
+        onDelete: "CASCADE"
       },
-      address: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      city: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      state: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      lat: {
-        type: Sequelize.DECIMAL(9, 7),
+      userId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        validate: {
-          min: -90,
-          max: 90
-        }
+        references: {
+          model: "Users",
+          key: "id"
+        },
+        onDelete: "CASCADE"
       },
-      long: {
-        type: Sequelize.DECIMAL(10, 7),
-        allowNull: false,
-        validate: {
-          min: -180,
-          max: 180
-        }
+      status: {
+        type: Sequelize.ENUM({
+          values: ['pending', 'waitlist', 'attending']
+        })
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -62,10 +52,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    },options);
+    }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Venues";
+    options.tableName = "Attendances"
     await queryInterface.dropTable(options);
   }
 };

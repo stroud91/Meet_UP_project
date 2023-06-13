@@ -4,9 +4,29 @@ const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.hasMany(models.Group,{
-        foreignKey: 'organizerId', as: 'organizer'
-      })
+      User.belongsToMany(models.Group, {
+        through: models.Membership,
+        foreignKey: "userId"
+      });
+
+      User.belongsToMany(models.Event, {
+        through: models.Attendance,
+        foreignKey: "userId"
+      });
+
+      User.hasMany(models.Group, {
+        foreignKey: "organizerId"
+      });
+
+      User.hasMany(models.Membership, {
+        foreignKey: "userId",
+        as: "Membership"
+      });
+
+      User.hasMany(models.Attendance, {
+        foreignKey: "userId",
+        as: "Attendance"
+      });
      }
   };
 
