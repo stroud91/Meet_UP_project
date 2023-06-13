@@ -2,7 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, Group } = require('../../db/models');
+const { User, Group, Venue, Event, Attendee, Membership, Image} = require('../../db/models');
 const { Op } = require("sequelize")
 
 const router = express.Router();
@@ -54,100 +54,294 @@ router.get('users/:userId/groups', requireAuth, async (req, res, next) => {
 
 
 router.delete('/:groupId', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+    const userId = req.user.id;
 
-    const { user } = req;
-    const id = user.id
-    const group = await Group.findByPk(groupId)
-    //Making sure to authorize only Admin to make changes to Group!!!DELETE
-    if (group) {
-        if (group.organizerId !== id) {
-            err.title = "NOT AUTHORIZED!!!"
-            err.status = 401
-            err.message = `You are not authorized to delete this group! Only Admin has these privilege!`
-            return next(err)
+        const group = await Group.findByPk(groupId);
+
+        if (!group) {
+            const err = new Error("Group couldn't be found");
+            err.status = 404;
+            return next(err);
         }
-        await group.destroy()
-        res.status(200)
-        return res.json({
-            message: "Group was successfully deleted. Have a nice day!",
-            statusCode: 200
-        })
-    } else {
-        err.title = "Group query failed!"
-        err.status = 404
-        err.message = "Indicated group couldn't be found. Please try again"
-        return next(err)
+
+        // Check if the user is authorized to delete the group
+        if (group.organizerId !== userId) {
+            const err = new Error("You are not authorized to delete this group! Only Admin has these privilege!");
+            err.status = 401;
+            return next(err);
+        }
+
+        // Delete the group
+        await group.destroy();
+
+        res.status(200).json({
+            message: "Successfully deleted"
+        });
+});
 
 
-    }
-})
-
+// Edit a Group
+// Require Authentication: true
+// Require proper authorization: Group must belong to the current user
+// Request Method: PUT
+// URL: /groups/:groupId
 
 router.put('/:groupId', requireAuth, validateCreation, async (req, res, next) => {
-    const { name, about, type, private, city, state } = req.body
-    const { groupId } = req.params
-    const { user } = req;
-    const id = user.id
+    const { name, about, type, private, city, state } = req.body;
+    const { groupId } = req.params;
+    const userId = req.user.id;
 
-    const group = await Group.findByPk(groupId)
-    //Making sure to authorize only Admin to make changes to Group!!!EDIT
-    if (group) {
-        if (group.organizerId !== id) {
-            err.title = "NOT AUTHORIZED!!!"
-            err.status = 401
-            err.message = `You are not authorized to edit this group! Only Admin has these privilege!`
-            return next(err)
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Indicated group couldn't be found. Please try again");
+        err.status = 404;
+        return next(err);
+    }
+
+    // Check if the user is authorized to update the group
+    if (group.organizerId !== userId) {
+        const err = new Error("You are not authorized to edit this group! Only Admin has these privilege!");
+        err.status = 401;
+        return next(err);
+    }
+
+    await group.update({ name, about, type, private, city, state });
+
+    //updated group
+    res.status(200).json({
+        id: group.id,
+        organizerId: group.organizerId,
+        name: group.name,
+        about: group.about,
+        type: group.type,
+        private: group.private,
+        city: group.city,
+        state: group.state,
+        createdAt: group.createdAt,
+        updatedAt: group.updatedAt
+    });
+
+
+});
+
+// Add an Image to a Group based on the Group's id
+// Create and return a new image for a group specified by id.
+// Require Authentication: true
+// Require proper authorization: Current User must be the organizer for the group
+// Request Method: POST
+// URL: /groups/:groupId/images
+
+router.post('/:groupId/images', requireAuth, async (req, res, next) => {
+
+    const { groupId } = req.params;
+    const { url, preview } = req.body;
+
+
+    const group = await Group.findOne({ where: { id: groupId } });
+
+
+    if (!group) {
+        return res.status(404).json({ message: "Group couldn't be found" });
+    }
+
+    // Check if the current user is the organizer of the group
+    if (group.organizerId !== req.user.id) {
+        return res.status(403).json({ message: "Unauthorized: Only the organizer can add images" });
+    }
+
+
+    const newImage = await Image.create({
+        imageableId: groupId,
+        imageableType: 'group',
+        url,
+        preview
+    });
+
+
+    res.status(200).json({
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+    });
+});
+
+
+
+// Get all Groups joined or organized by the Current User
+// Require Authentication: true
+// Request Method: GET
+// URL: /groups/current
+
+router.get('/current', requireAuth, async (req, res, next) => {
+    const ownerGroup = await Group.findAll({
+        where: {
+            organizerId: req.user.id
         }
-        await group.update({
-            organizerId: id, name, about, city, state, type, private
-        })
-        res.status(200)
-        return res.json({
-            message: "Group was successfully edited. Have a nice day!",
-            statusCode: 200
-        })
-    } else {
-        err.title = "Group query failed!"
-        err.status = 404
-        err.message = "Indicated group couldn't be found. Please try again"
-        return next(err)
+    });
+
+    const membersGroup = await Group.findAll({
+        include: {
+            attributes: [],
+            model: Membership,
+            as: "groupMemberIds",
+            where: {
+                userId: req.user.id
+            }
+        }
+    });
+
+    const list = [...ownerGroup, ...membersGroup];
+
+    // Fetch groupIds from list
+    const groupIds = list.map(group => group.id);
+
+    // Fetch images for all groups at once
+    const images = await Image.findAll({
+        where: {
+            imageableId: { [Op.in]: groupIds },
+            imageableType: 'group'
+        }
+    });
+
+    //for easier lookup
+    const imageMap = {};
+    images.forEach(image => {
+        imageMap[image.imageableId] = image.imageURL;
+    });
+
+    //assign images and count
+    for (let i = 0; i < list.length; i++) {
+        let numMembers = await Membership.count({
+            where: {
+                groupId: list[i].dataValues.id
+            }
+        });
+
+        list[i].dataValues.numMembers = numMembers;
+        list[i].dataValues.images = imageMap[list[i].dataValues.id] || null;
     }
 
+    res.json({ Groups: list });
+});
 
-})
+// Get details of a Group from an id
+// Require Authentication: false
+// Request Method: GET
+// URL: /groups/:groupId
 
-router.get('/', async (req, res, next) => {
-    const groups = await Group.findAll({})
-    const allGroupsArray = []
+router.get('/:groupId', async (req, res, next) => {
+    const { groupId } = req.params;
 
-    //method in test 1 - for loop to get all array of groups
-    for (let i = 0; i < groups.length; i++) {
-        let group = groups[i]
-        const groupId = group.id
 
-        group = group.toJSON()
-        //console.log(group)
+ const group = await Group.findOne({
+    where: {
+        id: groupId
+    },
+    include: [
+        {
+            model: Image,
+            attributes: ['id', 'imageURL', 'preview'],
+            as: "images"
+        },
+        {
+            model: User.scope('organizer'),
+            attributes: ['id', 'firstName', 'lastName'],
+            as: "Organizer"
+        },
+        {
+            model: Venue.scope('allVenuesRoutes'),
+            as: "Venues"
+        }
+    ]
+});
 
-        allGroupsArray.push(group)
-        //console.log(allGroupsArray)
+if (!group) {
+    const err = new Error("Group couldn't be found");
+    err.status = 404;
+    return next(err);
+}
+
+
+const numMembers = await Membership.count({
+    where: {
+        groupId: group.id
     }
+});
+
+const groupData = group.get({ plain: true });
+groupData.numMembers = numMembers;
 
 
-    res.json({ Groups: allGroupsArray })
-})
+res.json(groupData);
+});
 
-
-
+// Create a Group
+// Require Authentication: true
+// Request Method: POST
+// URL: api/groups
 
 router.post('/', requireAuth, validateCreation, async (req, res, next) => {
-    const { name, about, city, state, type, private,  } = req.body
-    const { user } = req;
-    const id = user.id
-    const group = await Group.create({
-        organizerId: id, name, about, city, state, type, private,
-    })
+    const { name, about, type, private, city, state } = req.body;
 
-    res.json(group)
+    const newGroup = await Group.create({
+        organizerId: req.user.id,
+        name,
+        about,
+        type,
+        private,
+        city,
+        state
+    })
+    res.status(201);
+    res.json(newGroup);
+});
+
+
+// GROUPS
+// 1.Get all Groups
+// Require Authentication: false
+// Method: GET
+// URL: /api/groups
+
+router.get('/', async (req, res, next) => {
+    const groups = await Group.findAll({});
+
+    // Fetch all images
+    const groupIds = groups.map(group => group.id);
+    const images = await Image.findAll({
+        where: {
+            imageableId: { [Op.in]: groupIds },
+            imageableType: 'group'
+        }
+    });
+
+    const allGroups = await Promise.all(groups.map(async group => {
+        const groupJSON = group.toJSON();
+        const groupId = groupJSON.id;
+
+        // Counting number of members
+        const numMembers = await Membership.count({
+            where: {
+                groupId,
+                status: { [Op.or]: ['co-host', 'member'] }
+            }
+        });
+        groupJSON.numMembers = numMembers;
+
+        // Adding preview image if available
+        const previewImage = images.find(img => img.imageableId === groupId);
+        if (previewImage) {
+            groupJSON.previewImage = previewImage.imageURL;
+        } else {
+            groupJSON.previewImage = "Preview not available";
+        }
+
+        return groupJSON;
+    }));
+
+    res.json({ Groups: allGroups });
 })
 
 module.exports = router;

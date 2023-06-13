@@ -53,7 +53,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Venue',
-    
+    scopes: {
+      eventRoutes: {
+        attributes: ['id', 'city', 'state']
+      },
+      eventIdRoutes: {
+        attributes: ['id', 'address', 'city', 'state', 'lat', 'long']
+      },
+      allVenuesRoutes: {
+        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'long']
+      }
+    }
   });
   return Venue;
 };
