@@ -2,7 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, Group, Venue, Event, Attendee, Membership, Image} = require('../../db/models');
+const { User, Group, Venue, Event, Attendance, Membership, Image} = require('../../db/models');
 const { Op } = require("sequelize")
 
 const router = express.Router();
@@ -32,6 +32,61 @@ const validateCreation = [
     handleValidationErrors
 ];
 
+const validateCreateVenue = [
+    check("address")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Street address is required"),
+    check("city")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("City is required"),
+    check("state")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("State is required"),
+    check("lat")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Latitude is not valid"),
+    check("lng")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Longitude is not valid"),
+    handleValidationErrors
+];
+
+const validateCreateEvent = [
+    check("venueId")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Venue does not exist"),
+    check("name")
+        .exists({ checkFalsy: true })
+        .isLength({ min: 5, max: 100 })
+        .notEmpty()
+        .withMessage("Name must be at least 5 characters"),
+    check("type")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Type must be Online or In person"),
+    check("capacity")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .isNumeric()
+        .withMessage("Capacity must be an integer"),
+    check("description")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Description is required"),
+    check("startDate")
+        .notEmpty()
+        .withMessage("Start date must be in the future"),
+    check("endDate")
+        .notEmpty()
+        .withMessage("End date is less than start date"),
+    handleValidationErrors
+]
 const err = {};
 
 //Groups Routes
@@ -51,6 +106,175 @@ router.get('users/:userId/groups', requireAuth, async (req, res, next) => {
 })
 
 
+// Get all Events of a Group specified by its id
+// Require Authentication: false
+// Request Method: GET
+// URL: /groups/:groupId/events
+
+
+router.get('/:groupId/events', async (req, res, next) => {
+    const { groupId } = req.params;
+
+    // Fetch all events for the group
+    const events = await Event.findAll({
+        attributes: { exclude: ['capacity', 'price', 'updatedAt', 'createdAt', 'description'] },
+        where: { groupId },
+        include: [{ model: Group.scope("eventRoutes") }, { model: Venue.scope("eventRoutes") }],
+    });
+    if (events.length === 0) {
+        return res.status(404).json({ message: "Group couldn't be found or has no events" });
+    }
+    // Fetch all images for the events
+    const eventIds = events.map(event => event.dataValues.id);
+    const images = await Image.findAll({
+        where: {
+            imageableId: { [Op.in]: eventIds },
+            imageableType: 'event'
+
+        }
+    });
+
+    // Map images to events
+    for (let i = 0; i < events.length; i++) {
+        const eventImage = images.find(image => parseInt(image.imageableId) === parseInt(events[i].dataValues.id));
+        events[i].dataValues.previewImage = eventImage ? eventImage.imageURL : null;
+    }
+
+
+    for (let i = 0; i < events.length; i++) {
+        let numAttending = await Attendance.count({
+            where: {
+                eventId: events[i].dataValues.id
+            }
+        });
+        events[i].dataValues.numAttending = numAttending;
+    }
+    res.json({ Events: events });
+});
+
+
+router.post('/:groupId/events', requireAuth, validateCreateEvent, async (req, res, next) => {
+    const { groupId } = req.params;
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+    const currentUserId = req.user.id;
+
+    const group = await Group.findByPk(groupId);
+
+
+    if (!group) {
+        return res.status(404).json({ message: "Group couldn't be found" });
+    }
+
+    const isOrganizer = group.organizerId === currentUserId;
+    const isCoHost = await Membership.findOne({ where: { groupId, userId: currentUserId, status: 'co-host' } });
+
+    if (!isOrganizer && !isCoHost) {
+        return res.status(403).json({ message: "You are not authorized to create an event for this group" });
+    }
+
+        const newEvent = await Event.create({
+            groupId,
+            venueId,
+            name,
+            type,
+            capacity,
+            price: parseFloat(price),
+            description,
+            startDate,
+            endDate
+        });
+
+        const response = {
+            id: newEvent.dataValues.id,
+            groupId: newEvent.dataValues.groupId,
+            venueId: newEvent.dataValues.venueId,
+            name: newEvent.dataValues.name,
+            type: newEvent.dataValues.type,
+            capacity: newEvent.dataValues.capacity,
+            price: newEvent.dataValues.price,
+            description: newEvent.dataValues.description,
+            startDate: newEvent.dataValues.startDate,
+            endDate: newEvent.dataValues.endDate
+        };
+
+        res.status(200).json(response);
+});
+
+
+
+
+// Get All Venues for a Group specified by its id
+// Require Authentication: true
+// Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
+// Request Method: GET
+// URL: /groups/:groupId/venues
+
+router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+    const userId = req.user.id;  // Assuming that the user ID is stored in req.user.id
+
+        const group = await Group.findByPk(groupId);
+        if (!group) {
+            return res.status(404).json({ message: "Group couldn't be found" });
+        }
+        const isOrganizer = group.organizerId === userId;
+
+        if (!isOrganizer) {
+            return res.status(403).json({ message: "Unauthorized: Only the organizer can view venues" });
+        }
+        const venues = await Venue.scope("allVenuesRoutes").findAll({
+            where: { groupId: groupId }
+        });
+        res.json({ Venues: venues });
+});
+
+// Edit a Venue specified by its id
+// Require Authentication: true
+// Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
+// Request Method: PUT
+// URL: /venues/:venueId
+
+router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, res, next) => {
+    const { groupId } = req.params;
+    const { user } = req;
+    const { address, city, state, lat, lng } = req.body;
+
+    const group = await Group.findByPk(groupId);
+    // Check if the group exists
+    if (!group) {
+        const err = new Error("Can't find Group");
+        err.status = 404;
+        err.message = "Group couldn't be found";
+        return next(err);
+    }
+
+    const isCohost = await Membership.findOne({ where: { groupId, userId: user.id, status: "co-host" } });
+    // Check if the user is not the organizer or co-host
+    if (!(isCohost || group.organizerId === user.id)) {
+        const err = new Error("Not Authorized");
+        err.status = 403;
+        err.message = "Only the organizer or co-host may create a venue";
+        return next(err);
+    }
+        const newVenue = await Venue.create({
+            groupId: group.id,
+            address,
+            city,
+            state,
+            lat,
+            lng
+        });
+
+        return res.json({
+            id: newVenue.id,
+            groupId: group.id,
+            address,
+            city,
+            state,
+            lat,
+            lng
+        });
+});
 
 
 router.delete('/:groupId', requireAuth, async (req, res, next) => {
@@ -65,7 +289,6 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
             return next(err);
         }
 
-        // Check if the user is authorized to delete the group
         if (group.organizerId !== userId) {
             const err = new Error("You are not authorized to delete this group! Only Admin has these privilege!");
             err.status = 401;

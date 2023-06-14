@@ -44,7 +44,7 @@ module.exports = {
           max: 90
         }
       },
-      long: {
+      lng: {
         type: Sequelize.DECIMAL(10, 7),
         allowNull: false,
         validate: {

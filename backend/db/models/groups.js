@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         as: "Organizer"
       });
-      
+
       Group.hasMany(models.Image, {
         foreignKey: 'imageableId',
         constraints: false,
@@ -80,6 +80,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
+    scopes: {
+      eventRoutes: {
+        attributes: ['id', 'name', 'city', 'state']
+      },
+      eventIdRoutes: {
+        attributes: ['id', 'name', 'private', 'city', 'state']
+      },
+      updateImageRoutes: {
+        attributes: ['name', 'about', 'type', 'private', 'city', 'state']
+      }
+    }
   });
   return Group;
 };

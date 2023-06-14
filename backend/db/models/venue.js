@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(9, 7),
       allowNull: false
     },
-    long: {
+    lng: {
       type: DataTypes.DECIMAL(10, 7),
       allowNull: false
     },
@@ -58,10 +58,10 @@ module.exports = (sequelize, DataTypes) => {
         attributes: ['id', 'city', 'state']
       },
       eventIdRoutes: {
-        attributes: ['id', 'address', 'city', 'state', 'lat', 'long']
+        attributes: ['id', 'address', 'city', 'state', 'lat', 'lng']
       },
       allVenuesRoutes: {
-        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'long']
+        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
       }
     }
   });

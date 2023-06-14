@@ -32,7 +32,11 @@ const validateVenue = [
 const err = {}
 
 
-
+// Edit a Venue specified by its id
+// Require Authentication: true
+// Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"
+// Request Method: PUT
+// URL: /venues/:venueId
 
 router.put('/:venueId', requireAuth, validateVenue, async (req, res, next) => {
     const { venueId } = req.params;
@@ -57,15 +61,15 @@ router.put('/:venueId', requireAuth, validateVenue, async (req, res, next) => {
                 lng
             })
         } else{
-            err.title = "Not Authorized"
+            err.title = "Not Authorized!!!"
             err.status = 403
-            err.message = "Only the organizer or co-host may edit a venue"
+            err.message = "Only the organizer or co-host may edit a venue!!! Please Contact ADMIN!!!"
             return next(err)
         }
     }else {
-        err.title = "Can't find Venue"
+        err.title = "Can't find Venue!!!"
         err.status = 404
-        err.message = `Venue couldn't be found`
+        err.message = `Venue couldn't be found!!!`
         return next(err)
     }
 

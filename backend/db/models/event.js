@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         as: 'images'
       });
-      
+
       Event.belongsToMany(models.User, {
         through: models.Attendance,
         foreignKey: "eventId"
@@ -71,6 +71,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Event',
+    defaultScope: {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      }
+    }
   });
   return Event;
 };

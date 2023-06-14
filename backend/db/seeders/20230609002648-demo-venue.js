@@ -15,7 +15,7 @@ module.exports = {
         city: "New York",
         state: "NY",
         lat: 40.7128,
-        long: -74.0060,
+        lng: -74.0060,
       },
       {
         groupId: 2,
@@ -23,7 +23,7 @@ module.exports = {
         city: "Jersey City",
         state: "NJ",
         lat: 40.7178,
-        long: -74.0431,
+        lng: -74.0431,
       },
       {
         groupId: 3,
@@ -31,7 +31,7 @@ module.exports = {
         city: "Baskin Ridge",
         state: "NJ",
         lat: 39.9526,
-        long: -75.1652,
+        lng: -75.1652,
       },
       {
         groupId: 4,
@@ -39,7 +39,7 @@ module.exports = {
         city: "Jacksonville",
         state: "FL",
         lat: 30.3322,
-        long: -81.6557,
+        lng: -81.6557,
       },
       {
         groupId: 5,
@@ -47,7 +47,7 @@ module.exports = {
         city: "Monachie",
         state: "NJ",
         lat: 50.3322,
-        long: -81.6557,
+        lng: -81.6557,
       }
     ], {});
   },
