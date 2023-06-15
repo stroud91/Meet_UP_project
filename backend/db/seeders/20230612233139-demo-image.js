@@ -9,6 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
+    options.tableName = 'Images'
       // Seed images for groups
       let groupImages = [
         { imageURL: 'https://harveykalles.com/wp-content/uploads/2021/11/What-Makes-Toronto-a-Central-Hub-for-Arts-and-Culture-.jpg', imageableId: 1, imageableType: 'group', preview: "true" },
