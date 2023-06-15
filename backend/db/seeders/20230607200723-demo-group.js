@@ -89,7 +89,7 @@ module.exports = {
         state: 'NY',
       },
       {
-        organizerId: 3,
+        organizerId: 12,
         name: "New York Pets Meetup",
         about: `All animal lovers are welcome! Let's have fun socializing with this common subject, but not limited to!
 
@@ -125,7 +125,7 @@ module.exports = {
         state: 'NJ',
       },
       {
-        organizerId: 1,
+        organizerId: 14,
         name: "Cat Lovers in Newport, NJ",
         about: `I would like to start a group for cat lovers and cat owners living in Newport.
 
@@ -142,7 +142,7 @@ module.exports = {
         state: 'NJ',
       },
       {
-        organizerId: 10,
+        organizerId: 17,
         name: "Online Yoga",
         about: `A holistic Yoga practice of poses, breathing techniques and meditation-relaxation.
 
@@ -199,7 +199,7 @@ module.exports = {
         state: 'NJ',
       },
       {
-        organizerId: 1,
+        organizerId: 19,
         name: "Socialize with Internationals in New York (Online Meetup!)",
         about: `No preparation needed. Just bring your smile and open-mindedness to others!!
 
@@ -231,7 +231,7 @@ module.exports = {
         state: 'NY',
       },
       {
-        organizerId: 11,
+        organizerId: 13,
         name: "Small Business Owners and Virtual Assistants in Action",
         about: `This group is dedicated to bringing together entrepreneurs and virtual assistants who are passionate about growing their businesses
 
