@@ -9,7 +9,8 @@
     "start": "per-env",
     "start:development": "nodemon ./bin/www",
     "start:production": "node ./bin/www",
-    "build": "node psql-setup-script.js"
+    "build": "node psql-setup-script.js",
+    "resetdb": "npx dotenv sequelize-cli db:seed:undo:all && npx dotenv sequelize-cli db:migrate:undo:all && npx dotenv sequelize-cli db:migrate && npx dotenv sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "express-validator": "^7.0.1",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
