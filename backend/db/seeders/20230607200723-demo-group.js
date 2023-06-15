@@ -89,7 +89,7 @@ module.exports = {
         state: 'NY',
       },
       {
-        organizerId: 12,
+        organizerId: 20,
         name: "New York Pets Meetup",
         about: `All animal lovers are welcome! Let's have fun socializing with this common subject, but not limited to!
 
