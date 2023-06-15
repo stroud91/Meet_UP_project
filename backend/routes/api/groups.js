@@ -470,6 +470,14 @@ router.post('/:groupId/venues', requireAuth, validateCreateVenue, async (req, re
 });
 
 
+//  Delete a Group
+// Deletes an existing group.
+// * Require Authentication: true
+// * Require proper authorization: Group must belong to the current user
+// * Request
+//   * Method: DELETE
+//   * URL: /groups/:groupId
+
 router.delete('/:groupId', requireAuth, async (req, res, next) => {
     const { groupId } = req.params;
     const userId = req.user.id;

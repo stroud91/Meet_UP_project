@@ -479,44 +479,106 @@ router.put('/:eventId', requireAuth, validateEvent, async (req, res, next) => {
 // Request Method: GET
 // URL: /events
 
-router.get('/', async (req, res, next) => {
+router.get('/', validateQueryPagination, async (req, res, next) => {
 
-    const events = await Event.findAll({
-        include: [{ model: Group.scope("eventRoutes") }, { model: Venue.scope("eventRoutes") }],
-    });
+        const page = parseInt(req.query.page) || 1;
+        const size = parseInt(req.query.size) || 20;
+        const name = req.query.name;
+        const type = req.query.type;
+        const startDate = req.query.startDate;
 
-    // Extract event IDs
-    const eventIds = events.map(event => event.dataValues.id);
+        const whereConditions = {};
 
-    // Use Sequelize to get images for the events
-
-    const images = await Image.findAll({
-        where: {
-            imageableId: { [Op.in]: eventIds },
-            imageableType: 'event',
-
+        if (name) {
+            whereConditions.name = { [Op.like]: `%${name}%` };
         }
-    });
 
-    // Map images to events
-    for (let i = 0; i < events.length; i++) {
-        const eventImage = images.find(image => image.imageableId === events[i].dataValues.id);
-        events[i].dataValues.previewImage = eventImage ? eventImage.imageURL : null;
-    }
+        if (type) {
+            whereConditions.type = type;
+        }
 
-    // Count the number of attendees for each event
-    for (let i = 0; i < events.length; i++) {
-        let numAttending = await Attendance.count({
+        if (startDate) {
+            whereConditions.startDate = { [Op.gte]: new Date(startDate) };
+        }
+
+        const events = await Event.findAll({
+            where: whereConditions,
+            include: [
+                { model: Group.scope("eventRoutes") },
+                { model: Venue.scope("eventRoutes") }
+            ],
+            limit: size,
+            offset: (page - 1) * size
+        });
+
+        const eventIds = events.map(event => event.dataValues.id);
+
+        const images = await Image.findAll({
             where: {
-                eventId: events[i].dataValues.id
+                imageableId: { [Op.in]: eventIds },
+                imageableType: 'event',
             }
         });
-        events[i].dataValues.numAttending = numAttending;
-    }
 
-    // Return the events with images and number of attendees
-    res.json({ Events: events });
+        for (let i = 0; i < events.length; i++) {
+            const eventImage = images.find(image => image.imageableId === events[i].dataValues.id);
+            events[i].dataValues.previewImage = eventImage ? eventImage.imageURL : null;
+        }
+
+        for (let i = 0; i < events.length; i++) {
+            let numAttending = await Attendance.count({
+                where: {
+                    eventId: events[i].dataValues.id
+                }
+            });
+            events[i].dataValues.numAttending = numAttending;
+        }
+
+        res.json({ Events: events });
+
 });
+
+
+
+// the old router - to have it as reference
+// router.get('/', async (req, res, next) => {
+
+//     const events = await Event.findAll({
+//         include: [{ model: Group.scope("eventRoutes") }, { model: Venue.scope("eventRoutes") }],
+//     });
+
+//     // Extract event IDs
+//     const eventIds = events.map(event => event.dataValues.id);
+
+//     // Use Sequelize to get images for the events
+
+//     const images = await Image.findAll({
+//         where: {
+//             imageableId: { [Op.in]: eventIds },
+//             imageableType: 'event',
+
+//         }
+//     });
+
+//     // Map images to events
+//     for (let i = 0; i < events.length; i++) {
+//         const eventImage = images.find(image => image.imageableId === events[i].dataValues.id);
+//         events[i].dataValues.previewImage = eventImage ? eventImage.imageURL : null;
+//     }
+
+//     // Count the number of attendees for each event
+//     for (let i = 0; i < events.length; i++) {
+//         let numAttending = await Attendance.count({
+//             where: {
+//                 eventId: events[i].dataValues.id
+//             }
+//         });
+//         events[i].dataValues.numAttending = numAttending;
+//     }
+
+//     // Return the events with images and number of attendees
+//     res.json({ Events: events });
+// });
 
 
 
