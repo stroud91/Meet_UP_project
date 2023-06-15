@@ -136,7 +136,7 @@ module.exports = {
         Also, if possible, take a walk with our cats together!
 
         (In that case, please prepare nice and safe harness and a stroller (or carry bag) for pets)`,
-        type: "In Person",
+        type: "In person",
         private: false,
         city: 'Jersey City',
         state: 'NJ',
