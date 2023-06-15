@@ -142,7 +142,7 @@ module.exports = {
         state: 'NJ',
       },
       {
-        organizerId: 9,
+        organizerId: 10,
         name: "Online Yoga",
         about: `A holistic Yoga practice of poses, breathing techniques and meditation-relaxation.
 
@@ -216,7 +216,7 @@ module.exports = {
         state: 'NY',
       },
       {
-        organizerId: 9,
+        organizerId: 15,
         name: "Public Speaking NYC Online (Zoom) - Free Observation Session",
         about: `Overcome public speaking fear with gradual exposure, in a supportive environment. Observe a free trial to see if it's right for you.
 
