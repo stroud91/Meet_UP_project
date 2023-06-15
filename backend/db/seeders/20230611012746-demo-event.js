@@ -67,70 +67,70 @@ module.exports = {
         startDate: new Date("2024-07-04T09:30:00"),
         endDate: new Date("2024-07-04T11:00:00")
       },
-      // {
-      //   venueId: 1,
-      //   groupId: 5,
-      //   name: "Cat Lovers Gathering",
-      //   description: `Join us for an afternoon of feline fun! This is a chance for cat owners and lovers to meet, share stories, and enjoy each other's company. We might even have some special guests - some of our favorite felines!`,
-      //   type: "In person",
-      //   capacity: 3000,
-      //   price: 10,
-      //   startDate: new Date("2024-07-05T09:30:00"),
-      //   endDate: new Date("2024-07-05T11:00:00")
-      // },
-      // {
-      //   venueId: 3,
-      //   groupId: 4,
-      //   name: "New Jersey Dog Play Group - Summer Playdate",
-      //   description: `Bring your furry friends for a fun-filled day at the park! There will be
-      //                 off-leash play areas, water stations, and treats for the dogs. Socialize with
-      //                 fellow dog lovers and let your pet make some new friends too. Don't forget your camera!`,
-      //   type: "In person",
-      //   capacity: 50,
-      //   price: 0,
-      //   startDate: new Date("2024-07-12T10:00:00"),
-      //   endDate: new Date("2024-07-12T13:00:00")
-      // },
-      // {
-      //   venueId: 2,
-      //   groupId: 5,
-      //   name: "Cat Lovers Meetup - Cat Cafe Day",
-      //   description: `For all cat lovers in and around Newport, let's get together for a purrfect day at the Cat Cafe!
-      //                 Spend time with adorable cats, enjoy coffee and snacks, and socialize with fellow cat enthusiasts.
-      //                 Don't have a cat? This might be your chance to adopt one!`,
-      //   type: "In person",
-      //   capacity: 25,
-      //   price: 5,
-      //   startDate: new Date("2024-07-19T14:00:00"),
-      //   endDate: new Date("2024-07-19T16:00:00")
-      // },
-      // {
-      //   venueId: 4,
-      //   groupId: 10,
-      //   name: "Online Trivia Night Extravaganza",
-      //   description: `Get ready for an exciting Online Trivia Night! Team up with friends or play solo.
-      //                 We'll have questions ranging from pop culture and history to science and sports.
-      //                 There's something for everyone! It's a great way to challenge yourself and meet new people.`,
-      //   type: "Online",
-      //   capacity: 100,
-      //   price: 0,
-      //   startDate: new Date("2024-07-22T20:00:00"),
-      //   endDate: new Date("2024-07-22T22:00:00")
-      // },
-      // {
-      //   venueId: 5,
-      //   groupId: 6,
-      //   name: "Mindful Meditations - Online Weekly Session",
-      //   description: `Join us for a guided meditation session from the comfort of your own home.
-      //                 Perfect for beginners and experienced practitioners alike. Our guided meditation
-      //                 focuses on mindfulness and stress relief techniques. Take a break from your busy life
-      //                 and find some inner peace.`,
-      //   type: "Online",
-      //   capacity: 100,
-      //   price: 0,
-      //   startDate: new Date("2024-07-25T18:00:00"),
-      //   endDate: new Date("2024-07-25T19:00:00")
-      // },
+      {
+        venueId: 1,
+        groupId: 5,
+        name: "Cat Lovers Gathering",
+        description: `Join us for an afternoon of feline fun! This is a chance for cat owners and lovers to meet, share stories, and enjoy each other's company. We might even have some special guests - some of our favorite felines!`,
+        type: "In person",
+        capacity: 3000,
+        price: 10,
+        startDate: new Date("2024-07-05T09:30:00"),
+        endDate: new Date("2024-07-05T11:00:00")
+      },
+      {
+        venueId: 3,
+        groupId: 4,
+        name: "New Jersey Dog Play Group - Summer Playdate",
+        description: `Bring your furry friends for a fun-filled day at the park! There will be
+                      off-leash play areas, water stations, and treats for the dogs. Socialize with
+                      fellow dog lovers and let your pet make some new friends too. Don't forget your camera!`,
+        type: "In person",
+        capacity: 50,
+        price: 0,
+        startDate: new Date("2024-07-12T10:00:00"),
+        endDate: new Date("2024-07-12T13:00:00")
+      },
+      {
+        venueId: 2,
+        groupId: 5,
+        name: "Cat Lovers Meetup - Cat Cafe Day",
+        description: `For all cat lovers in and around Newport, let's get together for a purrfect day at the Cat Cafe!
+                      Spend time with adorable cats, enjoy coffee and snacks, and socialize with fellow cat enthusiasts.
+                      Don't have a cat? This might be your chance to adopt one!`,
+        type: "In person",
+        capacity: 25,
+        price: 5,
+        startDate: new Date("2024-07-19T14:00:00"),
+        endDate: new Date("2024-07-19T16:00:00")
+      },
+      {
+        venueId: 4,
+        groupId: 10,
+        name: "Online Trivia Night Extravaganza",
+        description: `Get ready for an exciting Online Trivia Night! Team up with friends or play solo.
+                      We'll have questions ranging from pop culture and history to science and sports.
+                      There's something for everyone! It's a great way to challenge yourself and meet new people.`,
+        type: "Online",
+        capacity: 100,
+        price: 0,
+        startDate: new Date("2024-07-22T20:00:00"),
+        endDate: new Date("2024-07-22T22:00:00")
+      },
+      {
+        venueId: 5,
+        groupId: 6,
+        name: "Mindful Meditations - Online Weekly Session",
+        description: `Join us for a guided meditation session from the comfort of your own home.
+                      Perfect for beginners and experienced practitioners alike. Our guided meditation
+                      focuses on mindfulness and stress relief techniques. Take a break from your busy life
+                      and find some inner peace.`,
+        type: "Online",
+        capacity: 100,
+        price: 0,
+        startDate: new Date("2024-07-25T18:00:00"),
+        endDate: new Date("2024-07-25T19:00:00")
+      },
 
 
 

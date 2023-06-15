@@ -42,12 +42,12 @@ module.exports = {
         status: 'attending'
     },
     {
-        eventId: 5,
+        eventId: 6,
         userId: 15,
         status: 'attending'
     },
     {
-        eventId: 4,
+        eventId: 7,
         userId: 8,
         status: 'attending'
     },
@@ -72,17 +72,17 @@ module.exports = {
         status: 'attending'
     },
     {
-        eventId: 1,
+        eventId: 8,
         userId: 17,
         status: 'attending'
     },
     {
-        eventId: 2,
+        eventId: 9,
         userId: 11,
         status: 'attending'
     },
     {
-        eventId: 3,
+        eventId: 10,
         userId: 9,
         status: 'attending'
     },
@@ -97,7 +97,7 @@ module.exports = {
         status: 'attending'
     },
     {
-        eventId: 2,
+        eventId: 8,
         userId: 6,
         status: 'attending'
     },
@@ -107,7 +107,7 @@ module.exports = {
         status: 'attending'
     },
     {
-        eventId: 1,
+        eventId: 7,
         userId: 18,
         status: 'attending'
     },
@@ -117,12 +117,12 @@ module.exports = {
         status: 'attending'
     },
     {
-        eventId: 5,
+        eventId: 6,
         userId: 12,
         status: 'attending'
     },
     {
-        eventId: 4,
+        eventId: 6,
         userId: 5,
         status: 'attending'
     },
@@ -132,12 +132,12 @@ module.exports = {
         status: 'attending'
     },
     {
-        eventId: 1,
+        eventId: 10,
         userId: 8,
         status: 'attending'
     },
     {
-        eventId: 3,
+        eventId: 9,
         userId: 3,
         status: 'attending'
     },
@@ -147,12 +147,12 @@ module.exports = {
         status: 'attending'
     },
     {
-        eventId: 5,
+        eventId: 7,
         userId: 16,
         status: 'attending'
     },
     {
-        eventId: 4,
+        eventId: 8,
         userId: 15,
         status: 'attending'
     },
