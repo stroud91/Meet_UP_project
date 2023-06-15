@@ -142,7 +142,7 @@ module.exports = {
         state: 'NJ',
       },
       {
-        organizerId: 7,
+        organizerId: 9,
         name: "Online Yoga",
         about: `A holistic Yoga practice of poses, breathing techniques and meditation-relaxation.
 
