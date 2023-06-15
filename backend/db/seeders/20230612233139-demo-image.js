@@ -43,7 +43,7 @@ module.exports = {
       // ];
 
       // return queryInterface.bulkInsert(options, [...groupImages, ...eventImages]);
-        return queryInterface.bulkInsert(options,
+        return queryInterface.bulkInsert("Images",
 
        [
         // Seed images for groups
