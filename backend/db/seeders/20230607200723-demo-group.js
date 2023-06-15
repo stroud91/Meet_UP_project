@@ -125,7 +125,7 @@ module.exports = {
         state: 'NJ',
       },
       {
-        organizerId: 5,
+        organizerId: 1,
         name: "Cat Lovers in Newport, NJ",
         about: `I would like to start a group for cat lovers and cat owners living in Newport.
 
