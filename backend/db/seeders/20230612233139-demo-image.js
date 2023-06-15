@@ -42,7 +42,7 @@ module.exports = {
         { imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw5SlCqlZs-KxmqfvYvxSc_usLfACk5GDdUg&usqp=CAU', imageableId: 10, imageableType: 'event', preview: "true" }
       ];
 
-      return queryInterface.bulkInsert('Images', [...groupImages, ...eventImages]);
+      return queryInterface.bulkInsert(options, [...groupImages, ...eventImages]);
   },
 
   async down (queryInterface, Sequelize) {
