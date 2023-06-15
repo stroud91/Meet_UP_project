@@ -53,7 +53,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    // options.tableName = 'Venues';
+    options.tableName = 'Venues';
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete('Venues', {
       city: { [Op.in]: ['New York', 'Jersey City', 'Baskin Ridge', 'Jacksonville', 'Monachie'] }
