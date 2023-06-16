@@ -16,8 +16,9 @@ const router = express.Router();
 // Request Method: DELETE
 // URL: /events/:eventId/images/:imageId
 
-router.delete('/:imageId', requireAuth, async (req, res, next) => {
-  const imageId = req.params.imageId;
+router.delete('/api/event-images/:imageId', isAuthenticated, isOrganizerOrCoHost, async (req, res) => {
+    try {
+        const imageId = req.params.imageId;
 
         // Fetch the image record
         const image = await Image.findOne({
@@ -53,5 +54,13 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         res.status(200).json({
             message: 'Successfully deleted'
         });
+
+    } catch (err) {
+        // Handle error
+        res.status(500).json({
+            message: 'Server Error'
+        });
+    }
+});
 
 module.exports = router;
