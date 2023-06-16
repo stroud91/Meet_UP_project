@@ -560,7 +560,7 @@ router.put('/:groupId', requireAuth, validateCreation, async (req, res, next) =>
 router.post('/:groupId/images', requireAuth, async (req, res, next) => {
 
     const { groupId } = req.params;
-    const { url: imageURL, preview } = req.body; // Change here
+    const { url: imageURL, preview } = req.body; 
 
     const group = await Group.findOne({ where: { id: groupId } });
 
@@ -568,7 +568,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         return res.status(404).json({ message: "Group couldn't be found" });
     }
 
-    // Check if the current user is the organizer of the group
+
     if (group.organizerId !== req.user.id) {
         return res.status(403).json({ message: "Unauthorized: Only the organizer can add images" });
     }
@@ -576,13 +576,13 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     const newImage = await Image.create({
         imageableId: groupId,
         imageableType: 'group',
-        imageURL, // And here
+        imageURL,
         preview
     });
 
     res.status(200).json({
         id: newImage.id,
-        url: newImage.imageURL, // imageURL is used here
+        url: newImage.imageURL,
         preview: newImage.preview
     });
 });
