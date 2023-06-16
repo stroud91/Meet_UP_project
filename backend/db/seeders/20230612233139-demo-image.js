@@ -80,7 +80,7 @@ module.exports = {
   const Op = Sequelize.Op;
   return queryInterface.bulkDelete(options, {
     imageableId: { [Op.between]: [1, 30] },
-    imageableType: { [Op.in]: ['Group', 'Event'] }
+    imageableType: { [Op.in]: ['group', 'event'] }
   }, {});
   }
 };
