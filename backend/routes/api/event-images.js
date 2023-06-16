@@ -17,27 +17,12 @@ const router = express.Router();
 // URL: /events/:eventId/images/:imageId
 
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
-    const { imageId } = req.params;
-
-    const image = await Image.findOne({
-        where: {
-            id: imageId,
-            imageableType: 'Event'
-        }
-    });
-
-    if (!image) {
-        return res.status(404).json({
-            message: "Event Image couldn't be found"
-        });
-    }
-
-    const eventId = image.imageableId;
+    const { eventId, imageId } = req.params;
 
     const event = await Event.findByPk(eventId, {
         include: [{
             model: Group,
-            attributes: ['organizerId', 'id'] // include id for membership query
+            attributes: ['organizerId']
         }]
     });
 
@@ -47,20 +32,33 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         });
     }
 
-    const isOrganizer = req.user.id === event.Group.organizerId;
-
-    const groupId = event.Group.id;
     const membership = await Membership.findOne({
         where: {
-            groupId,
+            groupId: event.groupId,
             userId: req.user.id,
         }
     });
-    const isCoHost = membership && membership.status === 'co-host';
 
-    if (!isOrganizer && !isCoHost) {
+    const isCohost = membership && membership.status === 'co-host';
+    const isOrganizer = req.user.id === event.Group.organizerId;
+
+    if (!isOrganizer && !isCohost) {
         return res.status(403).json({
             message: "Unauthorized: Must be the organizer or co-host"
+        });
+    }
+
+    const image = await Image.findOne({
+        where: {
+            id: imageId,
+            imageableType: 'event', // Ensure this matches the value stored in the DB.
+            imageableId: eventId
+        }
+    });
+
+    if (!image) {
+        return res.status(404).json({
+            message: "Event Image couldn't be found"
         });
     }
 
