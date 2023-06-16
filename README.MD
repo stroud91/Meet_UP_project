@@ -1974,7 +1974,7 @@ Return events filtered by query parameters.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /api/events?page=10&size=20
+  * URL: /api/events
   * Query Parameters
     * page: integer, minimum: 1, maximum: 10, default: 1
     * size: integer, minimum: 1, maximum: 20, default: 20
