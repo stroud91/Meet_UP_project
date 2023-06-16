@@ -16,41 +16,30 @@ const router = express.Router();
 // Request Method: DELETE
 // URL: /events/:eventId/images/:imageId
 
-router.delete('/api/event-images/:imageId', async (req, res) => {
-    const imageId = req.params.imageId;
-    const currentUserId = req.user.id; 
+router.delete('/api/event-images/:imageId', requireAuth, async (req, res) => {
+  const { imageId } = req.params;
+  
+  const image = await Image.findByPk(imageId);
 
-        const image = await Image.findOne({
-            where: { id: imageId, imageableType: 'event' },
-            include: [{
-                model: Event,
-                as: 'event',
-                include: [{
-                    model: Group,
-                    attributes: ['organizerId', 'id']
-                }]
-            }]
-        });
+  if (!image || image.imageableType !== 'event') {
+    return res.status(404).json({ message: "Event Image couldn't be found" });
+  }
 
-        if (!image) {
-            return res.status(404).json({ message: "Event Image couldn't be found" });
-        }
+  const event = await Event.findByPk(image.imageableId, {
+    include: [{
+      model: Group,
+      as: 'group'
+    }]
+  });
 
-        const groupId = image.event.Group.id;
-        const organizerId = image.event.Group.organizerId;
+  const group = event.group;
 
-        const membership = await Membership.findOne({
-            where: { groupId: groupId, userId: currentUserId }
-        });
+  if (group.organizerId !== req.user.id) { // Assuming req.user contains the logged in user
+    return res.status(403).json({ message: "Unauthorized" });
+  }
 
-        if (currentUserId !== organizerId && (!membership || membership.status !== 'co-host')) {
-            return res.status(403).json({ message: "You don't have permission to delete this image" });
-        }
+  await image.destroy();
 
-        await Image.destroy({ where: { id: imageId } });
-
-        return res.status(200).json({ message: 'Successfully deleted' });
-
+  return res.status(200).json({ message: "Successfully deleted" });
 });
-
 module.exports = router;
