@@ -16,7 +16,7 @@ const router = express.Router();
 // Request Method: DELETE
 // URL: /events/:eventId/images/:imageId
 
-router.delete('/api/event-images/:imageId', requireAuth, async (req, res, next) => {
+router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const { imageId } = req.params;
 
     // Find the image
