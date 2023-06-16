@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
 
       Membership.belongsTo(models.User, {
-        foreignKey: 'userID',
+        foreignKey: 'userId',
       });
 
       Membership.belongsTo(models.Group, {
-        foreignKey: 'groupID',
+        foreignKey: 'groupId',
       });
 
     }
