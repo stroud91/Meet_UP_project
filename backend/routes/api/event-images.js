@@ -19,7 +19,7 @@ const router = express.Router();
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const { imageId } = req.params;
 
-    // Find the image by its ID and ensure it's associated with an event.
+
     const image = await Image.findOne({
         where: {
             id: imageId,
@@ -27,17 +27,14 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         }
     });
 
-    // If the image is not found, return an error.
     if (!image) {
         const err = new Error("Event Image couldn't be found");
         err.status = 404;
         return next(err);
     }
 
-    // Retrieve the event ID from the image.
     const eventId = image.imageableId;
 
-    // Find the event and include the group it belongs to.
     const event = await Event.findByPk(eventId, {
         include: [{
             model: Group,
@@ -45,14 +42,12 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         }]
     });
 
-    // If the event is not found, return an error.
     if (!event) {
         const err = new Error("Event couldn't be found");
         err.status = 404;
         return next(err);
     }
 
-    // Find the membership of the user for the group the event belongs to.
     const membership = await Membership.findOne({
         where: {
             groupId: event.groupId,
