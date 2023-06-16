@@ -16,9 +16,8 @@ const router = express.Router();
 // Request Method: DELETE
 // URL: /events/:eventId/images/:imageId
 
-router.delete('/:imageId', requireAuth, async (req, res, next) => {
+router.delete('/event-images/:imageId', requireAuth, async (req, res, next) => {
     const { imageId } = req.params;
-
 
     const image = await Image.findOne({
         where: {
@@ -38,7 +37,8 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const event = await Event.findByPk(eventId, {
         include: [{
             model: Group,
-            attributes: ['organizerId']
+            attributes: ['organizerId'],
+            as: 'Group'
         }]
     });
 
@@ -55,23 +55,20 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         }
     });
 
-    // Check if the user is a co-host.
     const isCohost = membership && membership.status === 'co-host';
 
-    // Check if the user is the organizer.
     const isOrganizer = req.user.id === event.Group.organizerId;
 
-    // If the user is neither the organizer nor a co-host, return an unauthorized error.
     if (!isOrganizer && !isCohost) {
         const err = new Error("Unauthorized: Must be the organizer or co-host");
         err.status = 403;
         return next(err);
     }
 
-    // Delete the image.
+   
     await image.destroy();
 
-    // Send a success response.
+   
     res.json({ "message": "Successfully deleted" });
 });
 
