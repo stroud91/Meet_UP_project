@@ -16,51 +16,6 @@ const router = express.Router();
 // Request Method: DELETE
 // URL: /events/:eventId/images/:imageId
 
-router.delete('/api/event-images/:imageId', isAuthenticated, isOrganizerOrCoHost, async (req, res) => {
-    try {
-        const imageId = req.params.imageId;
 
-        // Fetch the image record
-        const image = await Image.findOne({
-            where: {
-                id: imageId,
-                imageableType: 'event'
-            },
-            include: [{
-                model: Event,
-                as: 'imageable',
-                include: [{
-                    model: Group,
-                    attributes: ['organizerId', 'coHostId']
-                }]
-            }]
-        });
-
-        // Check if image exists
-        if (!image) {
-            return res.status(404).json({
-                message: "Event Image couldn't be found"
-            });
-        }
-
-        // Delete the image
-        await Image.destroy({
-            where: {
-                id: imageId
-            }
-        });
-
-        // Send success response
-        res.status(200).json({
-            message: 'Successfully deleted'
-        });
-
-    } catch (err) {
-        // Handle error
-        res.status(500).json({
-            message: 'Server Error'
-        });
-    }
-});
 
 module.exports = router;
