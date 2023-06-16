@@ -17,46 +17,41 @@ const router = express.Router();
 // URL: /events/:eventId/images/:imageId
 
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
-    const { imageId } = req.params;
+  const imageId = req.params.imageId;
 
-    const image = await Image.findByPk(imageId);
+        // Fetch the image record
+        const image = await Image.findOne({
+            where: {
+                id: imageId,
+                imageableType: 'event'
+            },
+            include: [{
+                model: Event,
+                as: 'imageable',
+                include: [{
+                    model: Group,
+                    attributes: ['organizerId', 'coHostId']
+                }]
+            }]
+        });
 
-    if (!image || image.imageableType !== 'event') {
-        return res.status(404).json({ message: "Event Image couldn't be found" });
-    }
-
-    const eventId = image.imageableId;
-
-    const event = await Event.findByPk(eventId, {
-        include: [{
-            model: Group,
-            attributes: ['organizerId'],
-        }]
-    });
-
-    if (!event) {
-        return res.status(404).json({ message: "Event couldn't be found" });
-    }
-
-    const membership = await Membership.findOne({
-        where: {
-            groupId: event.groupId,
-            userId: req.user.id,
+        // Check if image exists
+        if (!image) {
+            return res.status(404).json({
+                message: "Event Image couldn't be found"
+            });
         }
-    });
 
-    const isCohost = membership && membership.status === 'co-host';
-    const isOrganizer = req.user.id === event.organizerId;
+        // Delete the image
+        await Image.destroy({
+            where: {
+                id: imageId
+            }
+        });
 
-    if (!isOrganizer && !isCohost) {
-        return res.status(403).json({ message: "Unauthorized: Must be the organizer or co-host" });
-    }
-
-    
-    await image.destroy();
-
-    
-    res.status(200).json({ "message": "Successfully deleted" });
-});
+        // Send success response
+        res.status(200).json({
+            message: 'Successfully deleted'
+        });
 
 module.exports = router;
