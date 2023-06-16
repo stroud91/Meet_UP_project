@@ -17,8 +17,27 @@ const router = express.Router();
 // URL: /events/:eventId/images/:imageId
 
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
-    const { eventId, imageId } = req.params;
+    const { imageId } = req.params;
 
+    // Find the image by its ID and ensure it's associated with an event.
+    const image = await Image.findOne({
+        where: {
+            id: imageId,
+            imageableType: 'event'
+        }
+    });
+
+    // If the image is not found, return an error.
+    if (!image) {
+        const err = new Error("Event Image couldn't be found");
+        err.status = 404;
+        return next(err);
+    }
+
+    // Retrieve the event ID from the image.
+    const eventId = image.imageableId;
+
+    // Find the event and include the group it belongs to.
     const event = await Event.findByPk(eventId, {
         include: [{
             model: Group,
@@ -26,12 +45,14 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         }]
     });
 
+    // If the event is not found, return an error.
     if (!event) {
-        return res.status(404).json({
-            message: "Event not found"
-        });
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        return next(err);
     }
 
+    // Find the membership of the user for the group the event belongs to.
     const membership = await Membership.findOne({
         where: {
             groupId: event.groupId,
@@ -39,35 +60,26 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         }
     });
 
+    // Check if the user is a co-host.
     const isCohost = membership && membership.status === 'co-host';
+
+    // Check if the user is the organizer.
     const isOrganizer = req.user.id === event.Group.organizerId;
 
+    // If the user is neither the organizer nor a co-host, return an unauthorized error.
     if (!isOrganizer && !isCohost) {
-        return res.status(403).json({
-            message: "Unauthorized: Must be the organizer or co-host"
-        });
+        const err = new Error("Unauthorized: Must be the organizer or co-host");
+        err.status = 403;
+        return next(err);
     }
 
-    const image = await Image.findOne({
-        where: {
-            id: imageId,
-            imageableType: 'event', // Ensure this matches the value stored in the DB.
-            imageableId: eventId
-        }
-    });
-
-    if (!image) {
-        return res.status(404).json({
-            message: "Event Image couldn't be found"
-        });
-    }
-
+    // Delete the image.
     await image.destroy();
 
-    return res.status(200).json({
-        message: "Successfully deleted"
-    });
+    // Send a success response.
+    res.json({ "message": "Successfully deleted" });
 });
+
 
 
 
