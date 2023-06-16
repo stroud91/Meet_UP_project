@@ -20,17 +20,18 @@ router.delete('/api/event-images/:imageId', requireAuth, (req, res) => {
     const imageId = req.params.imageId;
 
     // Fetch the image record
-    Image.findOne({
-        where: { id: imageId, imageableType: 'event' },
+Image.findOne({
+    where: { id: imageId, imageableType: 'event' },
+    include: [{
+        model: Event,
+        as: 'event',  // Use the correct alias
         include: [{
-            model: Event,
-            as: 'imageable',
-            include: [{
-                model: Group,
-                attributes: ['organizerId', 'id']
-            }]
+            model: Group,
+            attributes: ['organizerId', 'id']
         }]
-    })
+    }]
+})
+
     .then(image => {
         // Check if image exists
         if (!image) {
