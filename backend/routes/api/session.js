@@ -64,23 +64,23 @@ router.post(
   }
 );
 
-// // Get current user
-// router.get('/:userId', requireAuth, async (req, res) => {
-//   const userId = parseInt(req.params.userId, 10);
-//   if (req.user && userId === req.user.id) {
-//     const safeUser = {
-//       id: req.user.id,
-//       firstName: req.user.firstName,
-//       lastName: req.user.lastName,
-//       email: req.user.email,
-//       username: req.user.username,
-//     };
+// Get current user
+router.get('/current', requireAuth, async (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  if (req.user && userId === req.user.id) {
+    const safeUser = {
+      id: req.user.id,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      email: req.user.email,
+      username: req.user.username,
+    };
 
-//     return res.json({ user: safeUser });
-//   } else {
-//     return res.json({ user: null });
-//   }
-// });
+    return res.json({ user: safeUser });
+  } else {
+    return res.json({ user: null });
+  }
+});
 
 // Log out
 router.delete(
@@ -94,7 +94,7 @@ router.delete(
 
 //Restore session user
 router.get(
-  '/:userId',
+  '/',
   (req, res) => {
     const { user } = req;
     if (user) {
