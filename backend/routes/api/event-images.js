@@ -22,7 +22,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const event = await Event.findByPk(eventId, {
         include: [{
             model: Group,
-            attributes: ['organizerId', 'id'] // include id for membership query
+            attributes: ['organizerId', 'id']
         }]
     });
 
@@ -34,7 +34,6 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
 
     const isOrganizer = req.user.id === event.Group.organizerId;
 
-    // Query the Membership table to check if the user is a co-host of the group
     const membership = await Membership.findOne({
         where: {
             groupId: event.Group.id,
