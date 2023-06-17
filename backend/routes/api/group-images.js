@@ -15,24 +15,43 @@ const router = express.Router();
 // Request Method: DELETE
 // URL: /groups/:groupId/images/:imageId
 
-router.delete('/api/group-images/:imageId', requireAuth, async (req, res) => {
-  const { imageId } = req.params;
-  
-  const image = await Image.findByPk(imageId);
+router.delete('/:imageId', requireAuth, async (req, res, next) => {
+    const { imageId } = req.params;
+    const { user } = req;
 
-  if (!image || image.imageableType !== 'group') {
-    return res.status(404).json({ message: "Group Image couldn't be found" });
-  }
+    const image = await Image.findByPk(imageId);
 
-  const group = await Group.findByPk(image.imageableId);
+    if (!image || image.imageableType !== 'group') {
+        return res.status(404).json({ message: "Group Image couldn't be found" });
+    }
 
-  if (group.organizerId !== req.user.id) { // Assuming req.user contains the logged in user
-    return res.status(403).json({ message: "Unauthorized" });
-  }
+    const groupId = image.imageableId;
+    const group = await Group.findByPk(groupId);
 
-  await image.destroy();
+    // Check if user is an organizer
+    const isOrganizer = group && group.organizerId === user.id;
 
-  return res.status(200).json({ message: "Successfully deleted" });
+    // Check if user is a co-host
+    const isCoHost = await Membership.findOne({
+        where: {
+            groupId: groupId,
+            userId: user.id,
+            status: 'co-host'
+        }
+    });
+
+    // If user is not an organizer or co-host, return an error
+    if (!isOrganizer && !isCoHost) {
+        return res.status(401).json({ message: "Must be organizer or co-host to delete image" });
+    }
+
+    // Delete the image
+    await image.destroy();
+
+    // Send a success response
+    return res.status(200).json({ message: "Successfully Deleted" });
 });
+
+
 
 module.exports = router;

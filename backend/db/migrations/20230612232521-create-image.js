@@ -17,16 +17,20 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       imageURL: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+
       },
       imageableId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+
       },
       imageableType: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+
       },
       preview: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        
       },
       createdAt: {
         allowNull: false,

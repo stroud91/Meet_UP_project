@@ -24,11 +24,21 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Image.init({
-    imageURL: DataTypes.STRING,
-    imageableId: DataTypes.INTEGER,
-    imageableType: DataTypes.STRING,
+    imageURL: {
+      type: DataTypes.STRING,
+
+    },
+    imageableId: {
+      type: DataTypes.INTEGER,
+
+    },
+    imageableType: {
+      type: DataTypes.STRING,
+
+    },
     preview: {
-      type: DataTypes.BOOLEAN
+      type: DataTypes.BOOLEAN,
+      
     },
   }, {
     sequelize,
