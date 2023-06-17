@@ -1902,7 +1902,7 @@ Delete an existing image for a Group.
   of the Group
 * Request
   * Method: DELETE
-  * URL: /api/group-images/:imageId
+  * URL: /api/groups/:groupId/images/:imageId
   * Body: none
 
 * Successful Response
@@ -1939,7 +1939,7 @@ Delete an existing image for an Event.
   of the Group that the Event belongs to
 * Request
   * Method: DELETE
-  * URL: /api/event-images/:imageId
+  * URL: /api/events/:eventId/images/:imageId
   * Body: none
 
 * Successful Response
