@@ -35,13 +35,8 @@ module.exports = {
       status: {
         type: Sequelize.ENUM({
           values: ["member", "pending", "co-host"]
-        })
-      },
-      createdAt: {
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        type: Sequelize.DATE
+        }),
+        allowNull : false
       },
       createdAt: {
         allowNull: false,

@@ -105,6 +105,54 @@ router.get('users/:userId/groups', requireAuth, async (req, res, next) => {
     res.json({ Groups: safeGroup })
 })
 
+router.delete('/:groupId/images/:imageId', requireAuth, async (req, res, next) => {
+
+    // Find the group with its organizer information included
+    const group = await Group.findByPk(req.params.groupId, {
+        attributes: ['id', 'organizerId']
+    });
+
+    // Check if the group exists
+    if (!group) {
+        return res.status(404).json({ message: "Group couldn't be found" });
+    }
+
+    // Check if the user is either the organizer or a co-host
+    const isOrganizer = group.organizerId === req.user.id;
+    const isCohost = await Membership.findOne({
+        where: { userId: req.user.id, groupId: req.params.groupId, status: 'co-host' }
+    });
+
+    // If the user is neither the organizer nor a co-host, return a 403 forbidden status
+    if (!isOrganizer && !isCohost) {
+        return res.status(403).json({ message: "Must be an organizer or co-host to delete an image" });
+    }
+
+    // Find the image to be deleted
+    const image = await Image.findOne({
+        where: { imageableId: req.params.groupId, imageableType: 'group'}
+    });
+
+    // Check if the image exists
+    if (!image) {
+        return res.status(404).json({
+            message: "Group Image couldn't be found"
+        });
+    }
+
+    // Delete the image
+    await Image.destroy({
+        where: { id: req.params.imageId, imageableType: 'group' }
+    });
+
+    // Return a success message
+    return res.json({
+        message: "Successfully deleted"
+    });
+});
+
+
+
 
 // Change the status of a membership for a group specified by id
 // Require Authentication: true
@@ -560,7 +608,7 @@ router.put('/:groupId', requireAuth, validateCreation, async (req, res, next) =>
 router.post('/:groupId/images', requireAuth, async (req, res, next) => {
 
     const { groupId } = req.params;
-    const { url: imageURL, preview } = req.body; 
+    const { url: imageURL, preview } = req.body;
 
     const group = await Group.findOne({ where: { id: groupId } });
 

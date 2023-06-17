@@ -78,7 +78,44 @@ const validateQueryPagination = [
 const err = {}
 
 
+router.delete('/:eventId/images/:imageId', requireAuth, async (req, res, next) => {
 
+    const event = await Event.findByPk(req.params.eventId, {
+        include: [{ model: Group, attributes: ['id', 'organizerId'] }]
+    });
+
+    if (!event) {
+        return res.status(404).json({ message: "Event couldn't be found" });
+    }
+
+    const groupId = event.Group.id;
+
+    const isOrganizer = event.Group.organizerId ===  req.user.id;
+    const isCohost = await Membership.findOne({ where: { userId:  req.user.id, groupId, status: 'co-host' } });
+
+    if (!isOrganizer && !isCohost) {
+        return res.status(403).json({ message: "Must be an organizer, or co-host to add an image" });
+    }
+
+    const image = await Image.findOne({
+        where: { imageableId: req.params.eventId, imageableType: 'event'}
+    });
+
+    // Check if the image exists
+    if (!image) {
+        return res.status(404).json({
+            message: "Event Image  couldn't be found"
+        });
+    }
+
+    await Image.destroy({
+        where: { id: req.params.imageId, imageableType: 'event' }
+    });
+
+    return res.json({
+        message: "Successfully deleted"
+    });
+});
 
 // Delete attendance to an event specified by id
 // Require Authentication: true
