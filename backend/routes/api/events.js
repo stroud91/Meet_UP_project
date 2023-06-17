@@ -180,62 +180,57 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
 // URL: /events/:eventId/attendees/:attendeeId
 
 router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
-    const { eventId, attendeeId } = req.params;
+    const { eventId } = req.params;
     const { userId, status } = req.body;
 
-    // Fetch the event
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findByPk(req.params.eventId);
 
-    // If the event is not found, return an error
-    if (!event) {
-        return res.status(404).json({ message: "Event couldn't be found" });
+    const group = await Group.findByPk(event.groupId);
+
+    if (!event || !group) {
+        return res.status(404).json({ message: "Event or group couldn't be found" });
     }
 
-    // Check if the user is the organizer or co-host
-    const isOrganizerOrCohost = (event.organizerId === req.user.id) || await Membership.findOne({
+    const isOrganizer = group.organizerId === req.user.id;
+    const isCohost = await Membership.findOne({
         where: {
-            groupId: event.groupId,
+            groupId: group.id,
             userId: req.user.id,
             status: 'co-host'
         }
     });
 
-    // If the user is not the organizer or co-host, return an error
-    if (!isOrganizerOrCohost) {
-        return res.status(403).json({ message: "User not authorized to modify this attendance" });
-    }
-
-    // If the status is 'pending', return an error
-    if (status === "pending") {
-        return res.status(400).json({ message: "Cannot change an attendance status to pending" });
-    }
-
-    // Fetch the attendance
     const attendance = await Attendance.findOne({
-        where: {
-            id: attendeeId,
-            eventId,
-            userId
-        }
+        where: { userId: req.body.userId, eventId : req.params.eventId }
     });
 
-    // If the attendance is not found, return an error
     if (!attendance) {
         return res.status(404).json({ message: "Attendance between the user and the event does not exist" });
     }
 
-    // Update the attendance status
-    attendance.status = status;
-    await attendance.save();
+    if (status === 'pending') {
+        return res.status(400).json({ message: "Cannot change an attendance status to pending" });
+    }
 
-    // Return the updated attendance
-    res.status(200).json({
-        id: attendance.id,
-        eventId: attendance.eventId,
-        userId: attendance.userId,
-        status: attendance.status
-    });
+    if ((isOrganizer || isCohost) && ['member', 'waitlist', 'attending'].includes(status)) {
+        await Attendance.update({
+            status
+        }, {
+            where: { userId, eventId }
+        });
+
+        const updatedAttendance = await Attendance.findOne({
+            where: { userId, eventId },
+            attributes: ['id', 'eventId', 'userId', 'status']
+        });
+
+        return res.json(updatedAttendance);
+    } else {
+        return res.status(403).json({ message: "Not authorized to make that change" });
+    }
 });
+
+
 
 
 
