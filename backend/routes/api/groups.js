@@ -161,15 +161,17 @@ router.delete('/:groupId/images/:imageId', requireAuth, async (req, res, next) =
 
 router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
 
-    const { groupId } = req.params;
-    const { user } = req
     const { memberId, status } = req.body
 
-    const group = await Group.findByPk(groupId);
-    const currentMemId = await User.findByPk(memberId);
-    const membership = await Membership.findOne({ where: { groupId, userId: memberId } });
-    const isOrganizer = await Group.findOne({ where: { id: groupId, organizerId: user.id } });
-    const isCoHost = await Membership.findOne({ where: { groupId, userId: user.id, status: "co-host" } });
+    const group = await Group.findByPk(req.params.groupId);
+    const currentMemId = await User.findByPk(req.body.memberId);
+    const membership = await Membership.findOne({
+        where: { userId: req.body.memberId, groupId: req.params.groupId }
+    });
+    const isOrganizer = group.organizerId === req.user.id;
+    const isCohost = await Membership.findOne({
+        where: { userId: req.user.id, groupId: req.params.groupId, status: 'co-host' }
+    });
 
     if (!group) {
         return res.status(404).json({
@@ -192,28 +194,40 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
         });
     }
 
-    if ((isOrganizer || isCoHost) && status === 'member') {
-        await membership.update({ status: "member" })
-        return res.json({
-            id: membership.id,
-            groupId: group.id,
-            memberId: memberId,
-            status: "member"
-        })
-    } else if ((!isOrganizer && !isCoHost) && status === 'member') {
-        err.title = "Not Authorized"
-        err.status = 403
-        err.message = `Not authorized to make that change`
-        return next(err)
+    if ((isOrganizer || isCohost) && status === 'member') {
+        await Membership.update({
+            status: status
+        }, {
+            where: { userId: memberId, groupId: group.id }
+        });
+
+        const updatedMembership = await Membership.findOne({
+            where: { userId: memberId, groupId: group.id },
+            attributes: ['id', 'groupId', 'userId', 'status']
+        });
+
+        return res.json(updatedMembership);
+
+    } else if ((!isOrganizer && !isCohost) && status === 'member') {
+        const err = new Error("Not Authorized");
+        err.status = 403;
+        err.message = "Not authorized to make that change";
+        return next(err);
     }
-    if ((isOrganizer) && status === 'co-host') {
-        await membership.update({ status: "co-host" })
-        return res.json({
-            id: membership.id,
-            groupId: group.id,
-            memberId: memberId,
-            status: "co-host"
-        })
+    if (isOrganizer && status === 'co-host') {
+        await Membership.update({
+            status: status
+        }, {
+            where: { userId: memberId, groupId: group.id }
+        });
+
+        const updatedMembership = await Membership.findOne({
+            where: { userId: memberId, groupId: group.id },
+            attributes: ['id', 'groupId', 'userId', 'status']
+        });
+
+        return res.json(updatedMembership);
+
     } if ((!isOrganizer) && status === 'co-host') {
         await membership.update({ status: "co-host" })
 
