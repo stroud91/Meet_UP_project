@@ -679,7 +679,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const groupIds = list.map(group => group.id);
 
     // Fetch images for all groups at once
-    const images = await Image.findAll({
+    const previewImage = await Image.findAll({
         where: {
             imageableId: { [Op.in]: groupIds },
             imageableType: 'group'
@@ -688,7 +688,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
     //for easier lookup
     const imageMap = {};
-    images.forEach(image => {
+    previewImage.forEach(image => {
         imageMap[image.imageableId] = image.imageURL;
     });
 
@@ -701,7 +701,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         });
 
         list[i].dataValues.numMembers = numMembers;
-        list[i].dataValues.images = imageMap[list[i].dataValues.id] || null;
+        list[i].dataValues.previewImage = imageMap[list[i].dataValues.id] || null;
     }
 
     res.json({ Groups: list });
@@ -724,7 +724,7 @@ router.get('/:groupId', async (req, res, next) => {
         {
             model: Image,
             attributes: ['id', 'imageURL', 'preview'],
-            as: "images"
+            as: "GroupImages"
         },
         {
             model: User.scope('organizer'),

@@ -394,7 +394,7 @@ router.get('/:eventId', async (req, res, next) => {
             },
             {
                 model: Image,
-                as: "images",
+                as: "EventImages",
                 attributes: ['id', 'imageURL', 'preview']
             }
         ]

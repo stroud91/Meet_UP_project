@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
           imageableType: 'event'
         },
-        as: 'images'
+        as: 'EventImages'
       });
 
       Event.belongsToMany(models.User, {

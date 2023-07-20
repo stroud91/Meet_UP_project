@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         scope: {
           imageableType: 'group'
         },
-        as: 'images'
+        as: 'GroupImages'
       });
 
       Group.hasMany(models.Venue, {
