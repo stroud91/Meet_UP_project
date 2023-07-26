@@ -8,6 +8,8 @@
     border-radius: 10px;
     transition: box-shadow 0.3s ease-in-out;
     margin-bottom: 20px;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 .link-to-group:hover {
@@ -66,4 +68,21 @@
 .group-members {
     display: flex;
     justify-content: space-between;
+}
+
+.navigate-button {
+    position: absolute;
+    right: 0;
+    bottom: -30px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #000;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navigate-button:hover {
+    background-color: #e2e6ea;
 }
