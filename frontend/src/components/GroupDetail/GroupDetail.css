@@ -7,8 +7,7 @@
     border: 1px solid lightgray;
     border-radius: 10px;
     transition: box-shadow 0.3s ease-in-out;
-    margin-bottom: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
     position: relative;
 }
 
@@ -72,7 +71,8 @@
 
 .navigate-button {
     position: absolute;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: -30px;
     padding: 10px 20px;
     text-decoration: none;

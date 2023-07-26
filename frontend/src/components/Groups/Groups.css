@@ -12,6 +12,7 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-top: 60px;
 }
 
 .no-groups-display {
@@ -36,6 +37,7 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    justify-content: space-around;
 }
 
 .groups-link, .events-link {
@@ -49,6 +51,7 @@
     border-radius: 10px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease-in-out;
+    margin: 0 auto;
 }
 
 .groups-link:hover, .events-link:hover {
@@ -56,5 +59,10 @@
     text-decoration-thickness: 2px;
     text-underline-offset: 1px;
     background-color: #e2e6ea;
-    text-decoration: none; 
+    text-decoration: none;
+}
+
+.links-container {
+    margin-top: 13px;
+    margin-bottom: 13px;
 }

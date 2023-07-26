@@ -12,8 +12,8 @@ function MainPageFront() {
             </div>
             <div className="main-top-front">
                 <div className="main-header-left-front">
-                    <h1 className="h1-front">test to put here</h1>
-                    <p className="meetup-intro-front">text to put here</p>
+                    <h1 className="h1-front">Friendships are made on Meetup</h1>
+                    <p className="meetup-intro-front">Since 2002, members have used Meetup to make new friends, meet like-minded people, spend time on hobbies, and connect with locals over shared interests. Learn how.</p>
                 </div>
                 <div className="main-header-right-front">
                     <img className="header-right-img-front" src="https://secure.meetupstatic.com/next/images/shared/online_events.svg?w=640" alt=""/>
@@ -21,7 +21,7 @@ function MainPageFront() {
             </div>
             <div className="middle-center-front">
                 <h2 className="middle-center-h2-front">How Meetup works</h2>
-                <p>text to put here</p>
+                <p>See who's hosting local events for all the things you love</p>
             </div>
             <div className="interaction-center-front">
                 <Link className="link-front" to='/groups'>
@@ -30,7 +30,7 @@ function MainPageFront() {
                             <img className="svg-front" src="https://secure.meetupstatic.com/next/images/shared/handsUp.svg?w=256" alt=""/>
                         </div>
                         <h3 className="title-front">Join a group</h3>
-                        <p className="p-front">test to put here</p>
+                        <p className="p-front">Find all you interests and join a group today!</p>
                     </div>
                 </Link>
                 <Link className="link-front" to='/events'>
@@ -39,7 +39,7 @@ function MainPageFront() {
                             <img className="svg-front" src="https://secure.meetupstatic.com/next/images/shared/ticket.svg?w=256"alt="" />
                         </div>
                         <h3 className="title-front">Find an event</h3>
-                        <p className="p-front">test to put here</p>
+                        <p className="p-front">Browse what is happening near you. You might find what you like</p>
                     </div>
                 </Link>
                 {!user ?
