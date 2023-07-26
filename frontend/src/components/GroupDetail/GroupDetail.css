@@ -1,0 +1,69 @@
+.link-to-group {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+    padding: 2%;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease-in-out;
+    margin-bottom: 20px;
+}
+
+.link-to-group:hover {
+    box-shadow: 0px 0px 10px lightgray;
+}
+
+.main-group-listing {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.listing-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 125px;
+    width: 160px;
+    padding: 2%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.group-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1;
+}
+
+.group-name, .group-title, .numMembers {
+    font-weight: bold;
+}
+
+.group-location, .about-text, .private {
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.group-about {
+    margin-bottom: 10px;
+}
+
+.group-members {
+    display: flex;
+    justify-content: space-between;
+}

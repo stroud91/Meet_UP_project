@@ -10,12 +10,12 @@ function Groups() {
     const dispatch = useDispatch();
     const groupsData = useSelector(state => state.groups.groups)
 
-    console.log(groupsData)
+
     let groupsArray = [];
     if (groupsData) {
         groupsArray = Object.values(groupsData);
     }
-    console.log('groupsArray:', groupsArray);
+
     useEffect(() => {
         dispatch(getGroups())
     }, [dispatch,]);

@@ -1,0 +1,130 @@
+.main-front {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20%;
+    overflow-x: hidden;
+}
+
+.main-top-front {
+    padding-top: 8%;
+    width: 75%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    column-gap: 50px;
+}
+
+@media screen and (max-width: 600px) {
+    .main-top-front {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-header-left-front {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .h1-front, .meetup-intro-front {
+        text-align: center;
+    }
+}
+
+.main-header-left-front {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 50%
+}
+
+.h1-front, .meetup-intro-front {
+    text-align: left;
+}
+
+.main-header-right-front {
+    width: 50%
+}
+
+.header-right-img-front {
+    height: 100%;
+    width: 100%;
+}
+
+.middle-center-front {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0px 30px;
+    width: 50%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.middle-center-h2-front {
+    text-align: center;
+}
+
+.interaction-center-front {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: auto;
+    column-gap: 30px;
+}
+
+.link-front {
+    text-decoration: none;
+}
+
+.card-front {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 280px;
+    border-radius: 10px;
+    height: 300px;
+}
+
+@media screen and (max-width: 600px) {
+    .card-front {
+        background-color: rgb(25, 52, 75);
+    }
+
+    .interaction-center-front {
+        flex-direction: column;
+        row-gap: 30px;
+    }
+}
+
+.svg-div-front {
+    display: flex;
+    justify-content: center;
+}
+
+.title-front {
+    text-align: center;
+    color: rgb(1, 130, 148);
+}
+
+.title-front:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 1px;
+}
+
+.p-front {
+    text-align: center;
+    color: black;
+}
+
+.background-svgs-front {
+    z-index: -10;
+    position: absolute;
+    display: flex;
+    overflow-x: hidden;
+}
