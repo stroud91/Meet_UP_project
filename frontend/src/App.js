@@ -10,6 +10,7 @@ import MainPageFront from "./components/MainPageFront/MainPageFront";
 import Events from "./components/Events/Events";
 import OneGroupDetail from "./components/OneGroupDetail/OneGroupDetail";
 import OneEventDetail from "./components/OneEventDetail/OneEventDetail";
+import Footer from "./components/Footer/Footer";
 
 
 
@@ -50,6 +51,7 @@ function App() {
         </Route>
       </Switch>
     )}
+    <Footer isLoaded={isLoaded} />
   </>
   );
 }
