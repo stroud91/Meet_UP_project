@@ -8,6 +8,8 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import MainPageFront from "./components/MainPageFront/MainPageFront";
 import Events from "./components/Events/Events";
+import OneGroupDetail from "./components/OneGroupDetail/OneGroupDetail";
+import OneEventDetail from "./components/OneEventDetail/OneEventDetail";
 
 
 
@@ -33,6 +35,12 @@ function App() {
         </Route>
         <Route path="/signup">
           <SignupFormPage />
+        </Route>
+        <Route path='/events/:eventId'>
+          <OneEventDetail />
+        </Route>
+        <Route path="/groups/:groupId">
+          <OneGroupDetail />
         </Route>
         <Route path="/groups">
           <Groups />

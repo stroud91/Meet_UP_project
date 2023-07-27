@@ -1,0 +1,92 @@
+.details-main-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    transition: all 0.3s ease-in-out;
+}
+
+.details-inner-div {
+    display: flex;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.backend-server-errors {
+    text-decoration: none;
+    color: rgb(247, 89, 88);
+    transition: color 0.3s ease-in-out;
+}
+
+.group-image {
+    display: flex;
+    transition: all 0.3s ease-in-out;
+}
+
+.group-img {
+    border-radius: 10px;
+    object-fit: fit;
+    height: 100%;
+    width: 100%;
+    max-height: 400px;
+    max-width: 600px;
+    transition: all 0.3s ease-in-out;
+}
+
+.group-about {
+    padding-bottom: 25px;
+    transition: padding-bottom 0.3s ease-in-out;
+}
+
+.group-buttons-conditional {
+    display: flex;
+    justify-content: space-between;
+    max-width: 600px;
+    transition: all 0.3s ease-in-out;
+}
+
+.general-button {
+    background-color: rgb(1, 130, 148);
+    height: 40px;
+    width: 100px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.general-button:hover {
+    background-color: rgb(3, 165, 186);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.general-button:active {
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+}
+
+.topsection-div {
+    transition: all 0.3s ease-in-out;
+}
+
+.bottomsection-div {
+    transition: all 0.3s ease-in-out;
+}
+
+.detail-title {
+    transition: all 0.3s ease-in-out;
+}
+
+.organizer-part {
+    transition: all 0.3s ease-in-out;
+}
+
+.buttons {
+    transition: all 0.3s ease-in-out;
+}

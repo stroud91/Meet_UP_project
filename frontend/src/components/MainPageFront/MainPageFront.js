@@ -21,7 +21,7 @@ function MainPageFront() {
             </div>
             <div className="middle-center-front">
                 <h2 className="middle-center-h2-front">How Meetup works</h2>
-                <p>See who's hosting local events for all the things you love</p>
+                <p>See who's hosting local events for all the things you love. It is still considered one of the most effective social networking platforms for meeting new people. Meetup hosts events and groups centered around just about anything.</p>
             </div>
             <div className="interaction-center-front">
                 <Link className="link-front" to='/groups'>

@@ -3,11 +3,11 @@ import { csrfFetch } from './csrf';
 const LOAD_GROUPS = 'groups/LOAD';
 const LOAD_USER_GROUPS = 'groups/LOAD_USER_GROUPS';
 const LOAD_GROUP_DETAILS = 'groups/LOAD_GROUP_DETAILS';
+const LOAD_ONE_GROUP = 'groups/LOAD_ONE_GROUP';
 const CREATE_GROUP = 'groups/CREATE';
 const UPDATE_GROUP = 'groups/UPDATE';
 const DELETE_GROUP = 'groups/DELETE';
 const ADD_GROUP_IMAGE = 'groups/ADD_IMAGE';
-
 
 const loadGroups = (groups) => ({
   type: LOAD_GROUPS,
@@ -22,6 +22,11 @@ const loadUserGroups = (userGroups) => ({
 const loadGroupDetails = (groupDetails) => ({
   type: LOAD_GROUP_DETAILS,
   groupDetails,
+});
+
+const loadOneGroup = (group) => ({
+  type: LOAD_ONE_GROUP,
+  group,
 });
 
 const createGroup = (group) => ({
@@ -47,6 +52,7 @@ const addGroupImage = (image) => ({
 export const getGroups = () => async (dispatch) => {
   const response = await csrfFetch(`/api/groups`);
   const data = await response.json();
+  console.log('that is ', data)
   dispatch(loadGroups(data.Groups));
 };
 
@@ -56,15 +62,10 @@ export const getUserGroups = () => async (dispatch) => {
   dispatch(loadUserGroups(data.Groups));
 };
 
-export const getGroupDetails = (groupId) => async (dispatch) => {
+export const getOneGroup = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`);
-  if (response.ok) {
-  const data = await response.json();
-  console.log('groupid', data)
-  dispatch(loadGroupDetails(data));
-  } else{
-    console.log("not today!!!")
-  }
+  const group = await response.json();
+  dispatch(loadOneGroup(group));
 };
 
 export const createNewGroup = (group) => async (dispatch) => {
@@ -122,6 +123,8 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, userGroups: action.userGroups };
     case LOAD_GROUP_DETAILS:
       return { ...state, groupDetails: action.groupDetails };
+    case LOAD_ONE_GROUP:
+        return { ...state, groupDetails: action.group };
     case CREATE_GROUP:
       return { ...state, groups: [...state.groups, action.group] };
     case UPDATE_GROUP:
