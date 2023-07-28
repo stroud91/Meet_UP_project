@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
@@ -35,6 +36,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
+      <Link className="create-group" to="/groups/new">Create A Group</Link>
       <button onClick={openMenu}>
       <i className="fas fa-user-circle" />
       </button>

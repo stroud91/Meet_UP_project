@@ -1,0 +1,13 @@
+.groupInputField {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 14px;
+    color: black;
+}
+.groupLoginInput {
+    margin-bottom: 10px;
+
+}

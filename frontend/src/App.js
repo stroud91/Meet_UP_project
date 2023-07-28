@@ -11,6 +11,7 @@ import Events from "./components/Events/Events";
 import OneGroupDetail from "./components/OneGroupDetail/OneGroupDetail";
 import OneEventDetail from "./components/OneEventDetail/OneEventDetail";
 import Footer from "./components/Footer/Footer";
+import CreateGroupForm from "./components/CreateGroupForm/CreateGroupForm";
 
 
 
@@ -37,6 +38,9 @@ function App() {
         <Route path="/signup">
           <SignupFormPage />
         </Route>
+        <Route path='/groups/new'>
+            <CreateGroupForm />
+          </Route>
         <Route path='/events/:eventId'>
           <OneEventDetail />
         </Route>

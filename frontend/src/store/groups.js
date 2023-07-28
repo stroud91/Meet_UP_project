@@ -69,13 +69,14 @@ export const getOneGroup = (groupId) => async (dispatch) => {
 };
 
 export const createNewGroup = (group) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/`, {
+  const response = await csrfFetch(`/api/groups`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(group),
   });
   const data = await response.json();
   dispatch(createGroup(data));
+  return data;
 };
 
 export const editGroup = (group) => async (dispatch) => {
@@ -103,6 +104,7 @@ const initialState = {
   groups: [],
   userGroups: [],
   groupDetails: null,
+  GroupImages: []
 };
 
 export const addImageToGroup = (groupId, image) => async (dispatch) => {
@@ -138,13 +140,15 @@ const groupsReducer = (state = initialState, action) => {
       );
       return { ...state, groups: remainingGroups };
       case ADD_GROUP_IMAGE:
-      return {
-        ...state,
-        groupDetails: {
-          ...state.groupDetails,
-          GroupImages: [...state.groupDetails.GroupImages, action.image],
-        },
-      };
+  return {
+    ...state,
+    groupDetails: {
+      ...state.groupDetails,
+      GroupImages: state.groupDetails && state.groupDetails.GroupImages
+        ? [...state.groupDetails.GroupImages, action.image]
+        : [action.image],
+    },
+  };
     default:
       return state;
   }
