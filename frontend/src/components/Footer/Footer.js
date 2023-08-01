@@ -7,18 +7,18 @@ function Footer() {
                 <div className="footer-title">Created by Ledian Fekaj</div>
                 <div className="icons">
                     <a href="#" className="icon-link">
-                        <i className="icon">Icon Placeholder</i>
+                        <i className="icon">GitHub Profile</i>
                     </a>
                 </div>
                 <div className="tech">
                     <ul className="tech-list">
                         <li>JavaScript</li>
-                        <li>CSS</li>
                         <li>React</li>
+                        <li>PostgreSQL</li>
+                        <li>CSS</li>
                         <li>Redux</li>
                         <li>Express</li>
                         <li>Sequelize</li>
-                        <li>PostgreSQL</li>
                     </ul>
                 </div>
             </div>

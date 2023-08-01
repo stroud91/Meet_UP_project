@@ -1,0 +1,55 @@
+/* CSS for group form */
+.group-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-main-div-group {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.input-inner-div-group {
+    margin-bottom: 20px;
+}
+
+.input-header-group {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.login-input-group {
+    width: 100%;
+}
+
+.input-field-group, .input-dropdown-group, .input-block-group {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.input-error-group {
+    color: red;
+    margin-top: 5px;
+}
+
+.button-div-group {
+    display: flex;
+    justify-content: center;
+}
+
+.login-button-group {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-button-group:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

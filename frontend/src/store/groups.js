@@ -88,6 +88,7 @@ export const editGroup = (group) => async (dispatch) => {
   const data = await response.json();
   console.log(data, "")
   dispatch(updateGroup(data));
+  return data;
 };
 
 export const removeGroup = (groupId) => async (dispatch) => {

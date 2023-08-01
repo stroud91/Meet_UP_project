@@ -30,7 +30,7 @@ function MainPageFront() {
                             <img className="svg-front" src="https://secure.meetupstatic.com/next/images/shared/handsUp.svg?w=256" alt=""/>
                         </div>
                         <h3 className="title-front">Join a group</h3>
-                        <p className="p-front">Find all you interests and join a group today!</p>
+                        <p className="p-front">Do what you love, meet others who love it, find your community. The rest is history!</p>
                     </div>
                 </Link>
                 <Link className="link-front" to='/events'>
@@ -39,7 +39,7 @@ function MainPageFront() {
                             <img className="svg-front" src="https://secure.meetupstatic.com/next/images/shared/ticket.svg?w=256"alt="" />
                         </div>
                         <h3 className="title-front">Find an event</h3>
-                        <p className="p-front">Browse what is happening near you. You might find what you like</p>
+                        <p className="p-front">Events are happening on just about any topic you can think of, from online gaming and photography to yoga and hiking.</p>
                     </div>
                 </Link>
                 {!user ?
@@ -49,7 +49,7 @@ function MainPageFront() {
                                 <img className="svg-front" src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256" alt=""/>
                             </div>
                             <h3 className="title-front">Start a group</h3>
-                            <p className="p-front">text to put here</p>
+                            <p className="p-front">You don’t have to be an expert to gather people together and explore shared interests.</p>
                         </div>
                     </Link>
                     :

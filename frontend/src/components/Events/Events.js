@@ -12,8 +12,6 @@ const Events = () => {
 
   const eventsObj = useSelector(state => state.events.list);
   const events = Object.values(eventsObj);
-  console.log(eventsObj)
-  console.log(events)
   const upcomingEvents = events.filter(event => new Date(event.startDate) >= new Date());
   const sortedEvents = upcomingEvents.sort((eventA, eventB) => new Date(eventA.startDate) - new Date(eventB.startDate));
 

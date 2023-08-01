@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
@@ -12,15 +12,18 @@ import OneGroupDetail from "./components/OneGroupDetail/OneGroupDetail";
 import OneEventDetail from "./components/OneEventDetail/OneEventDetail";
 import Footer from "./components/Footer/Footer";
 import CreateGroupForm from "./components/CreateGroupForm/CreateGroupForm";
-
-
-
+import UpdateGroupForm from "./components/UpdateGroupForm/UpdateGroupForm";
+import { getGroups } from "./store/groups";
+import CreateEventForm from "./components/CreateEventForm/CreateEventForm";
 
 function App() {
+
   const dispatch = useDispatch();
+  const groups = useSelector(state => state.groups.Groupsroups);
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser())
+    .then(dispatch(getGroups()))
     .then(() => setIsLoaded(true));
   }, [dispatch]);
 
@@ -40,7 +43,13 @@ function App() {
         </Route>
         <Route path='/groups/new'>
             <CreateGroupForm />
-          </Route>
+        </Route>
+        <Route path='/groups/:groupId/events/new'>
+            <CreateEventForm />
+        </Route>
+        <Route path='/groups/:groupId/edit'>
+          <UpdateGroupForm groups={groups} />
+        </Route>
         <Route path='/events/:eventId'>
           <OneEventDetail />
         </Route>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { getOneGroup, removeGroup } from '../../store/groups';
+import { getGroupEvents } from '../../store/events'; // make sure to replace with your actual path
+import EventInfo from '../EventInfo/EventInfo'; // replace with your actual path
 import './OneGroupDetail.css';
 
 function OneGroupDetail() {
@@ -11,21 +13,19 @@ function OneGroupDetail() {
   const [backEndErrors, setBackEndErrors] = useState('');
 
   const group = useSelector((state) => state.groups.groupDetails);
+  const groupEvents = useSelector(state => state.events.groupList);
+
   const organizer = group ? group.Organizer : null;
-  console.log('this is organizer' ,organizer)
   const sessionUser = useSelector((state) => state.session.user);
-  console.log( "this is session user", sessionUser)
-  console.log("this is group", group)
+
   useEffect(() => {
-    dispatch(getOneGroup(groupId))
-      .catch(async (res) => {
-        const data = await res.json();
-        console.log("this is data", data)
-        if (data && data.message) {
-          setBackEndErrors(data.message);
-        }
-      });
+    dispatch(getOneGroup(groupId));
+    dispatch(getGroupEvents(groupId));
   }, [dispatch, groupId]);
+
+  const sortedGroupEvents = groupEvents
+    .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+    .filter(event => new Date(event.startDate) >= new Date());
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -70,6 +70,12 @@ function OneGroupDetail() {
           <h3 className='organizer-part'>
             Organized by: {organizer?.firstName} {organizer?.lastName}
           </h3>
+        </div>
+        <div className='group-events'>
+          <h2>Events ({sortedGroupEvents.length})</h2>
+          {sortedGroupEvents.map(event => (
+            <EventInfo key={event.id} event={event} />
+          ))}
         </div>
         <div className='bottomsection-div'>
           <div className='group-section'>

@@ -7,6 +7,7 @@ const UPDATE_EVENT = "events/UPDATE_EVENT";
 const DELETE_EVENT = "events/DELETE_EVENT";
 const LOAD_GROUP_EVENTS = "events/LOAD_GROUP_EVENTS";
 const LOAD_EVENT_DETAIL = "events/LOAD_EVENT_DETAIL";
+const ADD_EVENT_IMAGE = "events/ADD_EVENT_IMAGE";
 
 // Action Creators
 export const loadEvents = (list) => ({
@@ -39,25 +40,31 @@ export const loadEventDetail = (detail) => ({
   detail,
 });
 
-// Thunks
+export const addImageToEvent = (image) => ({
+  type: ADD_EVENT_IMAGE,
+  image,
+});
+
 export const getEvents = () => async (dispatch) => {
   const response = await csrfFetch('/api/events/');
   const list = await response.json();
   dispatch(loadEvents(list));
 }
 
-export const createEvent = (data) => async (dispatch) => {
-  const response = await csrfFetch('/api/groups/:groupId/events', {
+export const createEvent = (data, groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}/events`, {
     method: 'POST',
     body: JSON.stringify(data),
   });
   const event = await response.json();
+  console.log("this is the event response ", event)
   dispatch(addEvent(event));
-  return response;
+  return event;
+
 };
 
-export const editEvent = (data) => async (dispatch) => {
-  const response = await csrfFetch(`/api/events/:eventId`, {
+export const editEvent = (data, eventId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
@@ -66,8 +73,9 @@ export const editEvent = (data) => async (dispatch) => {
   return response;
 };
 
+
 export const removeEvent = (eventId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/events/:eventId`, {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
     method: 'DELETE',
   });
   if (response.ok) {
@@ -88,7 +96,19 @@ export const getEventDetail = (eventId) => async (dispatch) => {
   dispatch(loadEventDetail(detail));
 }
 
-// Reducer
+export const addEventImage = (eventId, image) => async dispatch => {
+  const response = await csrfFetch(`/api/events/${eventId}/images`, {
+      method: 'POST',
+      body: JSON.stringify(image)
+  });
+
+  if (response.ok) {
+      const newImage = await response.json();
+      dispatch(addImageToEvent(newImage));
+      return newImage;
+  }
+}
+
 const initialState = { list: [], groupList: [], detail: {} };
 
 const eventsReducer = (state = initialState, action) => {
@@ -105,6 +125,14 @@ const eventsReducer = (state = initialState, action) => {
       return { ...state, groupList: action.list.Events };
     case LOAD_EVENT_DETAIL:
       return { ...state, detail: action.detail };
+      case ADD_EVENT_IMAGE:
+        return {
+          ...state,
+          detail: {
+            ...state.detail,
+            eventImages: [...(state.detail.eventImages || []), action.image]
+          }
+        };
     default:
       return state;
   }
