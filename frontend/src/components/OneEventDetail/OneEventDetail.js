@@ -63,7 +63,7 @@ function OneEventDetail() {
 
         <div className='bottom-div'>
           <Link className='group-container' to={`/groups/${group.id}`}>
-            <img className='event-img' src={group.GroupImages[0].url} alt="group"/>
+            <img className='event-img' src={group.GroupImages[0].imageURL} alt="group"/>
             <div className='group-details'>
               {eventDetail.Group &&
                 <>
