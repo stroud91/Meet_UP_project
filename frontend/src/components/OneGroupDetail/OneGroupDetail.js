@@ -20,12 +20,17 @@ function OneGroupDetail() {
 
   useEffect(() => {
     dispatch(getOneGroup(groupId));
-    dispatch(getGroupEvents(groupId));
-  }, [dispatch, groupId]);
+    if (groupEvents && groupEvents.length > 0) {
+      dispatch(getGroupEvents(groupId));
+    }
+  }, [dispatch, groupId, groupEvents]);
 
-  const sortedGroupEvents = groupEvents
-    .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
-    .filter(event => new Date(event.startDate) >= new Date());
+  let sortedGroupEvents = [];
+  if (groupEvents) {
+    sortedGroupEvents = groupEvents
+        .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+        .filter(event => new Date(event.startDate) >= new Date());
+  }
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -72,11 +77,11 @@ function OneGroupDetail() {
           </h3>
         </div>
         <div className='group-events'>
-          <h2>Events ({sortedGroupEvents.length})</h2>
-          {sortedGroupEvents.map(event => (
-            <EventInfo key={event.id} event={event} />
-          ))}
-        </div>
+          <h2>Events ({sortedGroupEvents.length || 0})</h2>
+        { sortedGroupEvents.length > 0 ? sortedGroupEvents.map(event => (
+         <EventInfo key={event.id} event={event} />
+          )) : <p>No events found for this group.</p>}
+         </div>
         <div className='bottomsection-div'>
           <div className='group-section'>
             <div className='group-image'>

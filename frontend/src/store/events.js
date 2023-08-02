@@ -81,8 +81,11 @@ export const removeEvent = (eventId) => async (dispatch) => {
   if (response.ok) {
     await response.json();
     dispatch(deleteEvent(eventId));
+    return Promise.resolve();
   }
+  return Promise.reject();
 };
+
 
 export const getGroupEvents = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}/events`);

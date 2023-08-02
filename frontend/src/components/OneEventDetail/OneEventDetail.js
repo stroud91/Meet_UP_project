@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteEvent, getEventDetail, removeEvent } from '../../store/events';
+import {  getEventDetail, removeEvent } from '../../store/events';
 import { getOneGroup } from '../../store/groups';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import './OneEventDetail.css';
@@ -27,7 +27,8 @@ function OneEventDetail() {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    await dispatch(deleteEvent(eventId)).then(() => history.push('/events'));
+    const groupId = eventDetail.groupId;
+    await dispatch(removeEvent(eventId)).then(() => history.push(`/groups/${groupId}`)); // Redirect to the group page
   }
 
   let setDate = (date) => {

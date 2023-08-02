@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-
+import meetUpSmall from '../../images/meetup-logo-A0A979F531-seeklogo.com.png'
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
@@ -28,7 +28,7 @@ function Navigation({ isLoaded }){
   return (
     <ul className="nav-container">
       <li className="nav-left">
-        <NavLink exact to="/" className="home-button">Home</NavLink>
+      <NavLink exact to="/"><img className='small-logo' src={meetUpSmall} /></NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>
