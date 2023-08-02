@@ -14,16 +14,14 @@ function OneGroupDetail() {
 
   const group = useSelector((state) => state.groups.groupDetails);
   const groupEvents = useSelector(state => state.events.groupList);
-
+console.log("this is the ",groupEvents)
   const organizer = group ? group.Organizer : null;
   const sessionUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
     dispatch(getOneGroup(groupId));
-    if (groupEvents && groupEvents.length > 0) {
-      dispatch(getGroupEvents(groupId));
-    }
-  }, [dispatch, groupId, groupEvents]);
+    dispatch(getGroupEvents(groupId));
+  }, [dispatch, groupId]);
 
   let sortedGroupEvents = [];
   if (groupEvents) {
@@ -77,10 +75,10 @@ function OneGroupDetail() {
           </h3>
         </div>
         <div className='group-events'>
-          <h2>Events ({sortedGroupEvents.length || 0})</h2>
-        { sortedGroupEvents.length > 0 ? sortedGroupEvents.map(event => (
-         <EventInfo key={event.id} event={event} />
-          )) : <p>No events found for this group.</p>}
+         <h2>Events ({sortedGroupEvents.length || 0})</h2>
+         {sortedGroupEvents.length > 0 ? sortedGroupEvents.map(event => (
+          <EventInfo key={event.id} event={event} />
+            )) : <p>No events found for this group.</p>}
          </div>
         <div className='bottomsection-div'>
           <div className='group-section'>
