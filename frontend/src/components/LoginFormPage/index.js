@@ -1,35 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import "./LoginForm.css";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
-  // const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);  // Added
 
-
-  //Demo login function
   const demoUserButton = (e) => {
     setCredential('Demo-lition');
     setPassword('password');
   }
 
-  // //demo user usee effect handling
-  // useEffect(() => {
-  //   const errorList = {};
-  //   if (credential.length < 1) {
-  //     errorList.credential = 'Username is required';
-  //   }
-  //   if (!password.length) {
-  //     errorList.password = 'Password is required';
-  //   }
-  //   setErrors(errorList);
-  // }, [credential, password]);
+  useEffect(() => {
+    if (credential.length >= 4 && password.length >= 6) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [credential, password]);
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -67,12 +61,12 @@ function LoginFormPage() {
           />
         </label>
         {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Log In</button>
-      <div>
-        <div className="login-button-div">
-         <button className='login-button demo-login-button' type="submit" onClick={demoUserButton}>Demo User Log In</button>
+        <button type="submit" disabled={!isFormValid}>Log In</button>
+        <div>
+          <div className="login-button-div">
+            <button className='login-button demo-login-button' type="submit" onClick={demoUserButton}>Demo User Log In</button>
+          </div>
         </div>
-      </div>
       </form>
     </>
   );

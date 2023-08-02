@@ -91,7 +91,7 @@ export const getGroupEvents = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}/events`);
   const list = await response.json();
   dispatch(loadGroupEvents(list));
-  return list;
+  
 }
 
 export const getEventDetail = (eventId) => async (dispatch) => {
