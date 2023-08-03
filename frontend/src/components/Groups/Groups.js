@@ -30,7 +30,7 @@ function Groups() {
         renderedGroups = (
             <div className="no-groups-display">
                 <img className="no-groups-image" src="https://secure.meetupstatic.com/next/images/home/EmptyGroup.svg?w=384" alt="No groups" />
-                <div className="no-groups-text">Argument text here</div>
+                <div className="no-groups-text">Well... This is awkward... There are no Groups here...</div>
             </div>)
     }
 

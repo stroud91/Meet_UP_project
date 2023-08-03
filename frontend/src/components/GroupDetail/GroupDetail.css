@@ -86,3 +86,17 @@
 .navigate-button:hover {
     background-color: #e2e6ea;
 }
+
+.numMembers {
+    background-color: teal;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.private {
+    background-color: grey;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+}

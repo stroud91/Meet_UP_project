@@ -8,28 +8,75 @@
     padding-left: 10%;
     padding-right: 10%;
     transition: all 0.3s ease-in-out;
+    margin-top: 50px;
 }
 
 .details-inner-div {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
     transition: all 0.3s ease-in-out;
 }
 
 .backend-server-errors {
     text-decoration: none;
     color: rgb(247, 89, 88);
+    text-align: center;
     transition: color 0.3s ease-in-out;
 }
 
+.topsection-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.topsection-div button {
+    border: none;
+    background-color: transparent;
+    color: #013284;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.detail-title {
+    font-size: 2em;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.organizer-part {
+    color: rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease-in-out;
+}
+
+.group-events {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.group-events h2 {
+    font-size: 1.5em;
+}
+
+.bottomsection-div {
+    display: flex;
+    justify-content: space-around;
+    transition: all 0.3s ease-in-out;
+}
+
 .group-image {
+    flex-shrink: 0;
+    width: 30%;
     display: flex;
     transition: all 0.3s ease-in-out;
 }
 
 .group-img {
     border-radius: 10px;
-    object-fit: fit;
+    object-fit: cover;
     height: 100%;
     width: 100%;
     max-height: 400px;
@@ -37,14 +84,24 @@
     transition: all 0.3s ease-in-out;
 }
 
+.group-info {
+    flex-grow: 1;
+}
+
+.group-info .h3 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
 .group-about {
+    line-height: 1.5;
     padding-bottom: 25px;
     transition: padding-bottom 0.3s ease-in-out;
 }
 
 .group-buttons-conditional {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     max-width: 600px;
     transition: all 0.3s ease-in-out;
 }
@@ -69,22 +126,6 @@
 .general-button:active {
     transform: scale(0.95);
     transition: transform 0.3s ease-in-out;
-}
-
-.topsection-div {
-    transition: all 0.3s ease-in-out;
-}
-
-.bottomsection-div {
-    transition: all 0.3s ease-in-out;
-}
-
-.detail-title {
-    transition: all 0.3s ease-in-out;
-}
-
-.organizer-part {
-    transition: all 0.3s ease-in-out;
 }
 
 .buttons {

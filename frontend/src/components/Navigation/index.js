@@ -1,26 +1,34 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
-import './Navigation.css';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ProfileButton from "./ProfileButton";
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
+import "./Navigation.css";
 import meetUpSmall from '../../images/meetup-logo-A0A979F531-seeklogo.com.png'
-function Navigation({ isLoaded }){
-  const sessionUser = useSelector(state => state.session.user);
+
+function Navigation({ isLoaded }) {
+  const sessionUser = useSelector((state) => state.session.user);
 
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <li className="nav-right">
+      <li>
         <ProfileButton user={sessionUser} />
       </li>
     );
   } else {
     sessionLinks = (
-      <li className="nav-right">
-        <div className="login-signup">
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/signup">Sign Up</NavLink>
-        </div>
+      <li>
+        <OpenModalButton
+          buttonText="Log In"
+          modalComponent={<LoginFormModal />}
+        />
+        <OpenModalButton
+          buttonText="Sign Up"
+          modalComponent={<SignupFormModal />}
+        />
       </li>
     );
   }
@@ -28,7 +36,7 @@ function Navigation({ isLoaded }){
   return (
     <ul className="nav-container">
       <li className="nav-left">
-      <NavLink exact to="/"><img className='small-logo' src={meetUpSmall} /></NavLink>
+      <NavLink exact to="/"><img className='small-logo' src={meetUpSmall}  alt=""/></NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>

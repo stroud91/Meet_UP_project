@@ -65,4 +65,14 @@
 .links-container {
     margin-top: 13px;
     margin-bottom: 13px;
+    display: flex;
+    justify-content: space-between;
+    color: teal;
+    text-decoration: underline;
+    font-size: 20px;
+}
+
+.group-ensemble {
+    width: 80%;
+    margin: 0 auto;
 }
