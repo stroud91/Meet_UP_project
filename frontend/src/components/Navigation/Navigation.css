@@ -2,21 +2,6 @@ body {
     font-family: 'Graphik Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    list-style-type: none;
-    margin: 0;
-    padding: 10px;
-    overflow: hidden;
-    background-color: white;
-    border-bottom: 1px solid #ddd;
-}
-
-.nav-left {
-    margin-right: auto;
-    padding: 10px;
-}
 
 .nav-right {
     margin-left: auto;
@@ -27,7 +12,22 @@ body {
 
 .login-signup {
     display: flex;
-    gap: 10px;
+    gap: 10px /* Adjusts the space between the buttons. Increase the value to increase the space */
+}
+
+.login-signup a, button {
+    padding: 10px 20px;
+    background-color: #FFFFFF;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.5s ease-in-out, transform 0.3s ease-in-out;
+    margin-left: 10px; /* Moves the button a bit to the right */
+}
+
+li {
+    margin-left: 1px; /* Moves the li containing the buttons a bit to the right */
 }
 
 .login-signup a, button, .create-group {
@@ -45,18 +45,7 @@ body {
     transform: scale(1.1);
 }
 
-.small-logo {
-    padding: 10px 20px;
-    background-color: #FFFFFF;
-    color: #000000;
-    text-decoration: none;
-    border-radius: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.5s ease-in-out, transform 0.3s ease-in-out;
-    max-width: 35px;
-    max-height: 35px;
-    display: block;
-}
+
 
 .profile-dropdown {
     position: absolute;
@@ -155,3 +144,24 @@ body {
 .view-events-button:hover {
     background-color: #606060;
 }
+
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #e1e1e1;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .small-logo {
+    height: 50px;
+    width: auto;
+    margin-right: 15px;
+  }
