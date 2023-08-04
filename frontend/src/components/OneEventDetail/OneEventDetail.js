@@ -12,9 +12,9 @@ function OneEventDetail() {
   const history = useHistory();
 
   const eventDetail = useSelector(state => state.events.detail);
-  console.log('eventDetail', eventDetail )
+  
   const group = useSelector(state => state.groups.groupDetails);
-  console.log("group", group)
+
   const user = useSelector(state => state.session.user);
   useEffect(() => {
     dispatch(getEventDetail(eventId));

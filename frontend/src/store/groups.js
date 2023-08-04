@@ -52,7 +52,7 @@ const addGroupImage = (image) => ({
 export const getGroups = () => async (dispatch) => {
   const response = await csrfFetch(`/api/groups`);
   const data = await response.json();
-  console.log('that is ', data)
+
   dispatch(loadGroups(data.Groups));
 };
 
@@ -86,7 +86,7 @@ export const editGroup = (group) => async (dispatch) => {
     body: JSON.stringify(group),
   });
   const data = await response.json();
-  console.log(data, "")
+ 
   dispatch(updateGroup(data));
   return data;
 };

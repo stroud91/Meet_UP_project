@@ -74,7 +74,7 @@ function CreateGroupForm() {
            const payload = {name, about, type, private: groupPrivate, city, state}
 
            const newGroup = await dispatch(createNewGroup(payload));
-    console.log('this is newGroup', newGroup)
+   
     const newImg = {
         id: newGroup.id,
         url: prevImg,
