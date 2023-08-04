@@ -377,7 +377,7 @@ router.get('/:groupId/events', async (req, res, next) => {
         include: [{ model: Group.scope("eventRoutes") }, { model: Venue.scope("eventRoutes") }],
     });
     if (events.length === 0) {
-        return res.status(404).json({ message: "Group couldn't be found or has no events" });
+        return res.json({ Events: [] });
     }
     // Fetch all images for the events
     const eventIds = events.map(event => event.dataValues.id);
