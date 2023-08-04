@@ -11,56 +11,67 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-  const [disabled, setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
     return dispatch(sessionActions.login({ credential, password }))
-      .then(closeModal)
+      .then(closeModalWithCleanup)
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
-          setErrors(data.errors);
+          setErrors({ credential: 'The provided credentials were invalid' });
         }
       });
   };
+
   useEffect(() => {
     if (credential.length >= 4 && password.length >= 6) {
       setDisabled(false)
     } else {
       setDisabled(true)}
   }, [credential, password])
+
+  const closeModalWithCleanup = () => {
+    setCredential('');
+    setPassword('');
+    setErrors({});
+    closeModal();
+  };
+
   const loginDemo = () => {
     dispatch(sessionActions.login({ credential: "Demo-lition", password: "password" }))
-    .then(closeModal)
-  }
+    .then(closeModalWithCleanup)
+  };
+
   return (
     <>
       <form className="form-container" onSubmit={handleSubmit}>
-      <h1 className="logIn">Log In</h1>
+        <h1 className="logIn">Log In</h1>
         <label className="text-input">
-          {/* Username or Email */}
           <input
-          className="input credentials"
-          placeholder="Username or Email"
+            className="input credentials"
+            placeholder="Username or Email"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
+
           />
         </label>
         <label className="text-input">
-          {/* Password */}
           <input
-           className="input password"
-           placeholder="Password"
+            className="input password"
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+            {errors.credential && <p className={`error-message ${errors.credential ? 'visible' : ''}`}>{errors.credential}</p>}
+            {errors.password && <p className={`error-message ${errors.password ? 'visible' : ''}`}>{errors.password}</p>}
         </label>
-        {errors.credential && <p>{errors.credential}</p>}
         <button className={disabled ? "submit-button-inactive" : "submit-button-login"} type="submit" disabled={disabled}>Log In</button>
         <button className="demo-button" onClick={loginDemo}>DemoUser Login</button>
       </form>

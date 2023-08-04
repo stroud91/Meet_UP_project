@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { getOneGroup, removeGroup } from '../../store/groups';
-import { getGroupEvents } from '../../store/events'; // make sure to replace with your actual path
-import EventInfo from '../EventInfo/EventInfo'; // replace with your actual path
+import { getGroupEvents } from '../../store/events'; 
+import EventInfo from '../EventInfo/EventInfo';
 import './OneGroupDetail.css';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
 function OneGroupDetail() {
   const { groupId } = useParams();
@@ -63,12 +64,13 @@ console.log("this is the ",groupEvents)
     buttons = null;
   }
 
+
   return (
     <div className='details-main-view'>
       <div className='details-inner-div'>
         <div className='backend-server-errors'>{backEndErrors}</div>
         <div className='topsection-div'>
-             <button></button>
+          <NavLink to='/groups'><button>Back To Groups</button></NavLink>
           <h1 className='detail-title'>{group.name}</h1>
           <h3 className='organizer-part'>
             Organized by: {organizer?.firstName} {organizer?.lastName}

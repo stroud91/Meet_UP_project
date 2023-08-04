@@ -49,9 +49,10 @@ function OneEventDetail() {
     <div className='details-main'>
       <div className='top-div'>
         <div className='event-title'>{eventDetail.name}</div>
-        <div className='event-date'>{`${setDate(eventDetail.startDate).toUpperCase()} @ ${setTime(eventDetail.startDate)}`}</div>
+        <div className='event-date'>Start Time and Date:{`${setDate(eventDetail.startDate).toUpperCase()} @ ${setTime(eventDetail.startDate)}`}</div>
+        <div className='event-date'>End Time and Date:{`${setDate(eventDetail.endDate).toUpperCase()} @ ${setTime(eventDetail.endDate)}`}</div>
         <div className='img'>
-          <img className='img' src={eventDetail.EventImages[0].url} alt="event" />
+          <img className='img' src={eventDetail.EventImages[0].imageURL} alt="event" />
         </div>
         <div className='details-container'>
           <div className='detail-title'>Details</div>
