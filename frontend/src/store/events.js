@@ -90,8 +90,9 @@ export const removeEvent = (eventId) => async (dispatch) => {
 export const getGroupEvents = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}/events`);
   const list = await response.json();
+  console.log("list is right here", list)
   dispatch(loadGroupEvents(list));
-  
+  return list
 }
 
 export const getEventDetail = (eventId) => async (dispatch) => {

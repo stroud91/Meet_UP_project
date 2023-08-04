@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import './EventInfo.css'
+import './EventInfo.css';
 
 function EventInfo({ event }) {
-
     const processDate = (date) => {
         let dateStr = new Date(date).toDateString();
         let dateArray = dateStr = dateStr.split(' ');
@@ -26,16 +24,13 @@ function EventInfo({ event }) {
                     <img className='listing-img' src={event.previewImage} alt={event.name} />
                 </div>
                 <div className='event-info'>
-
-                    <div className='event-date'>{`${processDate(event.startDate).toUpperCase()} @ ${processTime(event.startDate)}`}</div>
-
+                    <div className='event-date'>{`${processDate(event.startDate).toUpperCase()} · ${processTime(event.startDate)}`}</div>
                     <div className='event-title'>Event: {event.name}</div>
-
+                    <div className='event-location'>Location: {event.Venue.city} , {event.Venue.state}</div>
+                    <div className='event-description'>{event.description}</div>
                     <div className='event-organizer'>Group: {event.Group.name}</div>
-
                 </div>
             </div>
-
         </Link >
     )
 }

@@ -5,11 +5,9 @@ import { getGroups } from '../../store/groups';
 import './Groups.css'
 import GroupDetail from "../GroupDetail/GroupDetail";
 
-
 function Groups() {
     const dispatch = useDispatch();
     const groupsData = useSelector(state => state.groups.groups)
-
 
     let groupsArray = [];
     if (groupsData) {
@@ -24,7 +22,12 @@ function Groups() {
 
     if (groupsArray.length > 0) {
         renderedGroups = (
-            groupsArray.map(group => (<GroupDetail key={group.id} group={group} />))
+            groupsArray.map((group, index) => (
+              <>
+                {index !== 0 && <hr />}
+                <GroupDetail key={group.id} group={group} />
+              </>
+            ))
         )
     } else {
         renderedGroups = (
@@ -36,10 +39,12 @@ function Groups() {
 
     return (groupsArray &&
         <div className="group-ensemble">
+
             <div className="links-container">
                 <Link className='groups-link' to='/groups' >Groups</Link>
                 <Link className='events-link' to='/events'>Events</Link>
             </div>
+            <h1>Groups in Meetup</h1>
             <div className="groups-display">
                 {renderedGroups}
             </div>

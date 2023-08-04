@@ -12,6 +12,7 @@ const Events = () => {
 
   const eventsObj = useSelector(state => state.events.list);
   const events = Object.values(eventsObj);
+  console.log("Event array",events)
   const upcomingEvents = events.filter(event => new Date(event.startDate) >= new Date());
   const sortedEvents = upcomingEvents.sort((eventA, eventB) => new Date(eventA.startDate) - new Date(eventB.startDate));
 
@@ -22,6 +23,7 @@ const Events = () => {
   let eventsList;
   if (sortedEvents.length > 0) {
     eventsList = sortedEvents.map(event => <EventInfo key={event.id} event={event} />);
+    console.log("This is the event list from events.js", eventsList)
   } else {
     eventsList = (
       <>

@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {  getEventDetail, removeEvent } from '../../store/events';
 import { getOneGroup } from '../../store/groups';
-import { useParams, useHistory, Link } from 'react-router-dom';
+import { useParams, useHistory, Link, NavLink } from 'react-router-dom';
 import './OneEventDetail.css';
+
 
 function OneEventDetail() {
   const { eventId } = useParams();
@@ -45,26 +46,22 @@ function OneEventDetail() {
     return returnTime
   }
 
+  let priceDisplay = eventDetail.price === 0 ? "FREE" : `$${eventDetail.price}`;
+
   return (eventDetail && eventDetail.EventImages && group && group.GroupImages &&
+
     <div className='details-main'>
+      <div className='back-button'><NavLink to='/events'><button>Back To Events</button></NavLink></div>
+      <div className='event-title'>{eventDetail.name}</div>
+        <div className='hosted-by'>Hosted by: {group.Organizer?.firstName} {group.Organizer?.lastName}</div>
       <div className='top-div'>
-        <div className='event-title'>{eventDetail.name}</div>
-        <div className='event-date'>Start Time and Date:{`${setDate(eventDetail.startDate).toUpperCase()} @ ${setTime(eventDetail.startDate)}`}</div>
-        <div className='event-date'>End Time and Date:{`${setDate(eventDetail.endDate).toUpperCase()} @ ${setTime(eventDetail.endDate)}`}</div>
+
         <div className='img'>
           <img className='img' src={eventDetail.EventImages[0].imageURL} alt="event" />
         </div>
-        <div className='details-container'>
-          <div className='detail-title'>Details</div>
-          <div className='event-details'>{eventDetail.description}</div>
-          <div className='event-price'>Price: ${eventDetail.price}</div>
-          <div className='organizer-name'> The Event Organizer: {group.Organizer?.firstName} {group.Organizer?.lastName}</div>
-          <div className='attending'>Attending: {eventDetail.numAttending} Guests</div>
-          <div className='capacity'>Capacity: {eventDetail.capacity}</div>
-        </div>
-
-        <div className='bottom-div'>
-          <Link className='group-container' to={`/groups/${group.id}`}>
+        <div className='right-side-conteiner'>
+        <div className='group-holder '>
+        <Link className='group-container' to={`/groups/${group.id}`}>
             <img className='event-img' src={group.GroupImages[0].imageURL} alt="group"/>
             <div className='group-details'>
               {eventDetail.Group &&
@@ -74,14 +71,34 @@ function OneEventDetail() {
                 </>
               }
             </div>
-          </Link>
+        </Link>
         </div>
 
-        <div className='owner-button-conditional'>
+        <div className='details-container'>
+          <div className='detail-title'>Details</div>
+          <div className='event-datetime'>
+          <i class="fas fa-clock"></i> START: {`${setDate(eventDetail.startDate).toUpperCase()} · ${setTime(eventDetail.startDate)}`}
+        </div>
+        <div className='event-datetime'>
+          <i class="fas fa-clock"></i> END: {`${setDate(eventDetail.endDate).toUpperCase()} · ${setTime(eventDetail.endDate)}`}
+        </div>
+          <div className='event-price'><i class="fas fa-money-bill-wave"></i> {priceDisplay}</div>
+          <div className='event-type'><i class="fas fa-map-pin"></i> {eventDetail.type}</div>
+          <div className='owner-button-conditional'>
           {user && group && user.id === group.organizerId &&
             <button className='general-button' onClick={handleDelete}>Delete Event</button>}
+          {user && group && user.id === group.organizerId &&
+            <button className='general-button'>Update Event</button>}
+          </div>
         </div>
       </div>
+      </div>
+      <div className='bottom-div'>
+        <div className='event-description'>
+            <h3>Description</h3>
+            {eventDetail.description}
+        </div>
+        </div>
     </div>
   )
 }

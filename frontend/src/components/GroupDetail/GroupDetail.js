@@ -1,8 +1,18 @@
-import React from 'react';
+import React,{useEffect}from 'react';
+import { useSelector,useDispatch } from 'react-redux';
+import { getGroupEvents } from '../../store/events';
 import { Link } from 'react-router-dom';
 import './GroupDetail.css'
 
-function GroupDetail({ group }) {
+function GroupDetail({ group}) {
+    
+    const dispatch = useDispatch();
+    const groupEvents = useSelector(state => state.events.groupList);
+
+    useEffect(() => {
+        dispatch(getGroupEvents(group.id));
+      }, [dispatch, group.id]);
+
     return (
         <Link className='link-to-group' to={`/groups/${group.id}`}>
             <div className='main-group-listing'>
@@ -19,11 +29,11 @@ function GroupDetail({ group }) {
                         <div className='about-text'>{group.about}</div>
                     </div>
                     <div className='group-members'>
-                        <div className='numMembers'>Members: {group.numMembers}</div>
-                        <div className='private'>
-                            {group.private ? 'Private' : 'Public'} Group
-                        </div>
+                    <div className='numMembers'>Members: {group.numMembers}</div>
+                    <div className='event-info'>
+                    {groupEvents?.length} Events  · {group.private ? 'Private' : 'Public'} Group
                     </div>
+                </div>
                 </div>
             </div>
         </Link>
