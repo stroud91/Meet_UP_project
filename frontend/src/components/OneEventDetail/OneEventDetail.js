@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {  getEventDetail, removeEvent } from '../../store/events';
 import { getOneGroup } from '../../store/groups';
 import { useParams, useHistory, Link, NavLink } from 'react-router-dom';
+import Modal from '../DeleteEventModal/index';
 import './OneEventDetail.css';
 
 
@@ -10,15 +11,23 @@ function OneEventDetail() {
   const { eventId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const [showModal, setShowModal] = useState(false);
   const eventDetail = useSelector(state => state.events.detail);
-  
+
   const group = useSelector(state => state.groups.groupDetails);
 
   const user = useSelector(state => state.session.user);
   useEffect(() => {
     dispatch(getEventDetail(eventId));
   }, [dispatch, eventId]);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   useEffect(() => {
     if (eventDetail && eventDetail.Group) {
@@ -29,7 +38,8 @@ function OneEventDetail() {
   const handleDelete = async (e) => {
     e.preventDefault();
     const groupId = eventDetail.groupId;
-    await dispatch(removeEvent(eventId)).then(() => history.push(`/groups/${groupId}`)); // Redirect to the group page
+    await dispatch(removeEvent(eventId)).then(() => history.push(`/groups/${groupId}`));
+    closeModal();
   }
 
   let setDate = (date) => {
@@ -85,8 +95,18 @@ function OneEventDetail() {
           <div className='event-price'><i class="fas fa-money-bill-wave"></i> {priceDisplay}</div>
           <div className='event-type'><i class="fas fa-map-pin"></i> {eventDetail.type}</div>
           <div className='owner-button-conditional'>
-          {user && group && user.id === group.organizerId &&
-            <button className='general-button' onClick={handleDelete}>Delete Event</button>}
+          {user && group && user.id === group.organizerId && (
+        <>
+          <button className='general-button' onClick={openModal}>
+            Delete Event
+          </button>
+          <Modal
+            show={showModal}
+            closeModal={closeModal}
+            confirmAction={handleDelete}
+          />
+        </>
+      )}
           {user && group && user.id === group.organizerId &&
             <button className='general-button'>Update Event</button>}
           </div>

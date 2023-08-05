@@ -15,14 +15,22 @@ function ConfirmDeleteModal({ groupId, closeModal }) {
   };
 
   return (
-    <div id="modal">
-      <div id="confirm-delete-modal">
-        <h1>Confirm Delete</h1>
-        <p>Are you sure you want to remove this group?</p>
-        <button className="yes-button" onClick={handleDelete}>Yes (Delete Group)</button>
-        <button className="no-button" onClick={closeModal}>No (Keep Group)</button>
-      </div>
-    </div>
+     <div>
+        <div id="modal-background" onClick={closeModal} />
+       <div id="modal">
+
+        <div id="confirm-delete-modal">
+
+             <h1>Confirm Delete</h1>
+             <p>Are you sure you want to remove this group?</p>
+             <button className="yes-button" onClick={handleDelete}>Yes (Delete Group)</button>
+             <button className="no-button" onClick={closeModal}>No (Keep Group)</button>
+        </div>
+
+       </div>
+     </div>
+
+
   );
 }
 
