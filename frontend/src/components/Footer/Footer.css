@@ -10,6 +10,9 @@
     position: relative;
     bottom: 0;
     margin-top: 300px;
+    background-color: black;
+    color: white;
+    gap: 20px;
   }
 
   .footer-content {
@@ -19,21 +22,26 @@
     flex-wrap: wrap;
     max-width: 1200px;
     padding: 0 20px;
+    color: white;
   }
 
   .footer-title {
     font-size: 18px;
     font-weight: bold;
+    color: white;
+    margin-right: 20px;
   }
 
   .icons {
     display: flex;
     gap: 10px;
+    color: white;
   }
 
   .icon-link {
     color: black;
     text-decoration: none;
+    color: white;
   }
 
   .icon {
@@ -44,15 +52,18 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    color: white;
   }
 
   .tech-list {
     display: flex;
     gap: 10px;
+    color: white;
   }
 
   .tech-list li {
     list-style-type: none;
     font-size: 14px;
-    color: rgba(0,0,0,0.6);
+
+    color: white;
   }

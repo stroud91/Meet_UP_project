@@ -6,7 +6,7 @@ function Footer() {
             <div className="footer-content">
                 <div className="footer-title">Created by Ledian Fekaj</div>
                 <div className="icons">
-                    <a href="#" className="icon-link">
+                    <a href="https://github.com/stroud91" className="icon-link">
                         <i className="icon">GitHub Profile</i>
                     </a>
                 </div>
