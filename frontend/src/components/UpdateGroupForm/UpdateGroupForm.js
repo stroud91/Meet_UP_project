@@ -33,17 +33,17 @@ function UpdateGroupForm({ groups }) {
         return /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/.test(str);
     }
 
-    useEffect(() => {
-        dispatch(getOneGroup(groupId)).then(response => {
-          setName(response.group.name);
-          setAbout(response.group.about);
-          setType(response.group.type);
-          setGroupPrivate(response.group.private);
-          setCity(response.group.city);
-          setState(response.group.state);
-          setGroupIds(response.group.id);
-        });
-      }, [dispatch, groupId]);
+    // useEffect(() => {
+    //     dispatch(getOneGroup(groupId)).then(response => {
+    //       setName(response.group.name);
+    //       setAbout(response.group.about);
+    //       setType(response.group.type);
+    //       setGroupPrivate(response.group.private);
+    //       setCity(response.group.city);
+    //       setState(response.group.state);
+    //       setGroupIds(response.group.id);
+    //     });
+    //   }, [dispatch, groupId]);
 
     useEffect(() => {
         if (!name.length) { setNameErr('Name is required');

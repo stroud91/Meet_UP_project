@@ -1,80 +1,109 @@
 .main {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
+    width: 1000px;
+    margin: 10px;
+    margin-left: 100px;
+    margin-top: 5px;
 }
 
 .title {
-    font-size: 2em;
-    margin: 10px 0;
-}
-
-.backend-errors {
-    color: red;
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    color: #007BFF;
+    margin-bottom: 25px;
 }
 
 .full-form-main-div {
-    width: 80%;
-    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 60%;
 }
 
 .full-input-inner-div {
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0;
+    width: 90%;
+    border-bottom: 1px solid black;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    text-align: left;
 }
 
 .full-input-header {
-    font-size: 1.2em;
-    margin-bottom: 5px;
-}
-
-.full-login-input {
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 10px;
+    color: black;
+    font-weight: bold;
 }
 
 .full-input-field,
-.full-input-block,
 .full-input-date {
+    display: flex;
+    justify-content: flex-start;
+    border: 1px solid rgb(211, 211, 211);
     width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    height: 35px;
+    border-radius: 10px;
+    margin-top: 1px;
 }
 
-.full-input-field.error,
-.full-input-block.error,
-.full-input-date.error {
-    border-color: red;
+.full-input-field:hover,
+.full-input-date:hover {
+    border: 1px solid rgb(52, 51, 51);
 }
 
-.full-input-error {
-    color: #777;
-    font-size: 0.9em;
-    height: 1em;
+.full-input-field:focus,
+.full-input-date:focus {
+    border: 1px solid rgb(0, 130, 148);
 }
 
-.full-input-error.error {
-    color: red;
+.full-input-block {
+    justify-content: flex-start;
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: 10px;
+    width: 100%;
+    height: 120px;
+    resize: none;
+}
+
+.full-input-block:hover {
+    border: 1px solid rgb(52, 51, 51);
+}
+
+.full-input-block:focus {
+    border: 1px solid rgb(0, 130, 148);
+}
+
+.full-input-error{
+    color: rgb(255, 0, 0);
+    text-align: left;
+    font-weight: bold;
 }
 
 .full-login-button-div {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    margin-top: 20px;
 }
 
 .full-login-button {
-    padding: 10px 20px;
-    background-color: #09f;
-    color: white;
+    margin-top: 15px;
+    height: 40px;
+    width: auto;
+    border-radius: 10px;
     border: none;
-    border-radius: 4px;
+    background-color: rgb(246, 64, 96);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    text-transform: uppercase;
-    margin-top: 20px;
+}
+
+.full-login-button:hover {
+    background-color: rgb(246, 133, 154);
+}
+
+.full-login-button:active {
+    transform: scale(0.95);
 }

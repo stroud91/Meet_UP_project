@@ -15,6 +15,12 @@ function CreateEventForm() {
 
     const user = useSelector(state => state.session.user);
     const groupsData = useSelector(state => state.groups.groups)
+    let groupName = '';
+
+    if (groupsData) {
+    let group = groupsData.find(group => group.id === Number(groupId));
+    groupName = group ? group.name : '';
+    }
 
     let groupsArray = [];
     if (groupsData) {
@@ -115,20 +121,21 @@ function CreateEventForm() {
     }
     return (
         <div className='main'>
-            <div className='title'>Create An Event</div>
+            <div className='title'>Create An Event for {groupName}</div>
 
             <div className='backend-errors'>{backEndErrors}</div>
 
             <form onSubmit={handleSubmit}>
                 <div className='full-form-main-div'>
                     <div className='full-input-inner-div'>
-                        <div className='full-input-header'>Event Name</div>
+                        <div className='full-input-header'>What is the name of your event?</div>
                         <div className='full-login-input'>
                             <input
                                 className={nameErr ? 'full-input-field error' : 'full-input-field'}
                                 type='text'
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                placeholder='Event Name'
                             />
                         </div>
                         <div className={nameErr ? 'full-input-error error' : 'full-input-error'}>
@@ -144,6 +151,7 @@ function CreateEventForm() {
                                 maxLength={200}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
+                                placeholder='Please, provide a description of at least 50 characters...'
                             />
                         </div>
                         <div className={descriptionErr ? 'full-input-error error' : 'full-input-error'}>
@@ -151,7 +159,7 @@ function CreateEventForm() {
                         </div>
                     </div>
                     <div className='full-input-inner-div'>
-                        <div className='full-input-header'>Event Type</div>
+                        <div className='full-input-header'>Is this an in-person or online group?</div>
                         <div className='full-login-input'>
                             <select
                                 className={typeErr ? 'full-input-field error' : 'full-input-field'}
@@ -177,6 +185,7 @@ function CreateEventForm() {
                                 value={capacity}
                                 min={2}
                                 onChange={(e) => setCapacity(e.target.value)}
+                                placeholder='Capacity'
                             />
                         </div>
                         <div className={capacityErr ? 'full-input-error error' : 'full-input-error'}>
@@ -184,19 +193,20 @@ function CreateEventForm() {
                         </div>
                     </div>
                     <div className='full-input-inner-div'>
-                        <div className='full-input-header'>Price</div>
+                        <div className='full-input-header'>What is the price for your event?</div>
                         <div className='full-login-input'>
                             <input
                                 className='full-input-field'
                                 type='number'
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}
+                                placeholder='0.00'
                             />
                         </div>
                         <div className='full-input-error'></div>
                     </div>
                     <div className='full-input-inner-div'>
-                        <div className='full-input-header'>Start Date</div>
+                        <div className='full-input-header'>When does your event start?</div>
                         <div className='full-login-input'>
                             <DatePicker
                                 className={startDateErr ? 'full-input-date error' : 'full-input-date'}
@@ -205,6 +215,7 @@ function CreateEventForm() {
                                 timeInputLabel="Event Start Time:"
                                 dateFormat='MM/dd/yyyy h:mm aa'
                                 showTimeInput
+                                placeholder='MM/DD/YYYY, HH/mm AM'
                             />
                         </div>
                         <div className={startDateErr ? 'full-input-error error' : 'full-input-error'}>
@@ -212,7 +223,7 @@ function CreateEventForm() {
                         </div>
                     </div>
                     <div className='full-input-inner-div'>
-                        <div className='full-input-header'>End Date</div>
+                        <div className='full-input-header'>When does your event end?</div>
                         <div className='full-login-input'>
                             <DatePicker
                                 className={endDateErr ? 'full-input-date error' : 'full-input-date'}
@@ -221,6 +232,7 @@ function CreateEventForm() {
                                 timeInputLabel="Event Start Time:"
                                 dateFormat='MM/dd/yyyy h:mm aa'
                                 showTimeInput
+                                placeholder='MM/DD/YYYY, HH/mm PM'
                             />
                         </div>
                         <div className={endDateErr ? 'full-input-error error' : 'full-input-error'}>
@@ -228,13 +240,14 @@ function CreateEventForm() {
                         </div>
                     </div>
                     <div className='full-input-inner-div'>
-                        <div className='full-input-header'>Event Image</div>
+                        <div className='full-input-header'>Please add an image url for your event below:</div>
                         <div className='full-login-input'>
                             <input
                                 className={prevImgErr ? 'full-input-field error' : 'full-input-field'}
                                 type='text'
                                 value={prevImg}
                                 onChange={(e) => setPrevImg(e.target.value)}
+                                placeholder='Image URL'
                             />
                         </div>
                         <div className={prevImgErr ? 'full-input-error error' : 'full-input-error'}>

@@ -47,7 +47,7 @@ function CreateGroupForm() {
          if (!city.length) { setCityErr('City is required')
          } else { setCityErr('')
          }
-         if (!state.length) { setStateErr('State is required')
+         if (!state.length) { setStateErr('State  is required')
          } else { setStateErr('')
          }
          if (!type.length) { setTypeErr('Type must be "Online" or "In person"')
@@ -106,15 +106,15 @@ function CreateGroupForm() {
                 <div className='groupCaption'>Meetup groups meet locally, in person, and online. We'll connect you with people in your area.</div>
                 <div className='groupLoginInput'>
                 <input
-                      className='groupInputField'
-                      type='text'
-                      value={`${city}, ${state}`}
-                      onChange={(e) => {
-                      const parts = e.target.value.split(',').map(part => part.trim());
-                      setCity(parts[0]);
-                      setState(parts[1]);
-                    }}
-                     placeholder='City, STATE'
+                 className='groupInputField'
+                 type='text'
+                 value={`${city}${city && state ? ', ' : ''}${state}`}
+                 onChange={(e) => {
+                 const parts = e.target.value.split(',').map(part => part.trim());
+                 setCity(parts[0]);
+                 parts[1] ? setState(parts[1]) : setState('');
+                 }}
+                 placeholder='City, STATE'
                  />
                 </div>
                 <div className='groupInputError'>
@@ -147,7 +147,7 @@ function CreateGroupForm() {
                         maxLength={200}
                         value={about}
                         onChange={(e) => setAbout(e.target.value)}
-                        placeholder='Please write at least 30 characters'
+                        placeholder='Please write at least 50 characters'
                     />
                 </div>
                 <div className='groupInputError'>
