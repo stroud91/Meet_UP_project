@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 function MainPageFront() {
     const user = useSelector(state => state.session.user);
+    const sessionUser = useSelector((state) => state.session.user);
 
     return (
         <div className="main-front">
@@ -43,12 +44,12 @@ function MainPageFront() {
                     </div>
                 </Link>
                 {!user ?
-                    <Link className='link-front' to='/signup'>
+                    <Link className='link-front' to='/'>
                         <div className="card-front">
                             <div className="svg-div-front">
                                 <img className="svg-front" src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=256" alt=""/>
                             </div>
-                            <h3 className="title-front">Start a group</h3>
+                            <h3 className="title-front" disabled={!sessionUser}>Start a group</h3>
                             <p className="p-front">You do not have to be an expert to gather people together and explore shared interests.</p>
                         </div>
                     </Link>

@@ -6,13 +6,14 @@ import { getGroupEvents } from '../../store/events';
 import EventInfo from '../EventInfo/EventInfo';
 import './OneGroupDetail.css';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
+import ConfirmDeleteModal from '../DeleteGroupModal/index';
 
 function OneGroupDetail() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
   const [backEndErrors, setBackEndErrors] = useState('');
-
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const group = useSelector((state) => state.groups.groupDetails);
   const groupEvents = useSelector(state => state.events.groupList);
   const organizer = group ? group.Organizer : null;
@@ -41,10 +42,9 @@ function OneGroupDetail() {
     history.push(`/groups/${groupId}/edit`);
   };
 
-  const handleDelete = async (e) => {
+  const handleDelete = (e) => {
     e.preventDefault();
-    await dispatch(removeGroup(groupId));
-    history.push('/groups');
+    setShowConfirmModal(true);
   };
 
   const handleEvent = (e) => {
@@ -86,11 +86,20 @@ function OneGroupDetail() {
         <div className='backend-server-errors'>{backEndErrors}</div>
         <NavLink to='/groups'><button>Back To Groups</button></NavLink>
         <div className='topsection-div'>
-    <div className='group-image'>
-        {group?.GroupImages?.map((image) =>
-            <img key={image.id} className='group-img' src={image.imageURL} alt=''></img>
-        )}
-    </div>
+        <div className='group-image'>
+    {group?.GroupImages?.length > 1 ? (
+        <img key={group.GroupImages[group.GroupImages.length - 1].id}
+             className='group-img'
+             src={group.GroupImages[group.GroupImages.length - 1].imageURL}
+             alt=''></img>
+    ) : (
+        group?.GroupImages?.length === 1 &&
+        <img key={group.GroupImages[0].id}
+             className='group-img'
+             src={group.GroupImages[0].imageURL}
+             alt=''></img>
+    )}
+</div>
     <div className="text-button-and-buttons-container">
         <div className="text-and-button-container">
             <div className='text-container'>
@@ -105,7 +114,7 @@ function OneGroupDetail() {
                 {joinButton}
             </div>
         </div>
-        <div className='buttons'>{buttons}</div>
+        <div className='buttonsu'>{buttons}</div>
     </div>
 </div>
 
@@ -128,6 +137,7 @@ function OneGroupDetail() {
           </div>
         </div>
       </div>
+      {showConfirmModal && <ConfirmDeleteModal groupId={groupId} closeModal={() => setShowConfirmModal(false)} />}
     </div>
   );
 }

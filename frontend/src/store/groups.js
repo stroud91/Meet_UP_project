@@ -65,7 +65,9 @@ export const getUserGroups = () => async (dispatch) => {
 export const getOneGroup = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`);
   const group = await response.json();
+  console.log("group", group)
   dispatch(loadOneGroup(group));
+
 };
 
 export const createNewGroup = (group) => async (dispatch) => {
@@ -86,7 +88,7 @@ export const editGroup = (group) => async (dispatch) => {
     body: JSON.stringify(group),
   });
   const data = await response.json();
- 
+
   dispatch(updateGroup(data));
   return data;
 };

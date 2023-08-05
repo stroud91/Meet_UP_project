@@ -12,13 +12,12 @@ function UpdateGroupForm({ groups }) {
     const sessionUser = useSelector(state => state.session.user);
     const group = useSelector(state => state.groups.groups);
     const [name, setName] = useState(group?.name || '');
-    const [groupIds, setGroupIds] = useState(group?.id || '');
     const [about, setAbout] = useState(group?.about || '');
     const [type, setType] = useState(group?.type || '');
     const [groupPrivate, setGroupPrivate] = useState(group?.private || '');
     const [city, setCity] = useState(group?.city || '');
     const [state, setState] = useState(group?.state || '');
-    const [prevImg, setPrevImg] = useState(group?.GroupImages?.url || '');
+    const [prevImg, setPrevImg] = useState(group?.GroupImages?.[0]?.url || '');
     const [backEndErrors, setBackEndErrors] = useState('');
     const [nameErr, setNameErr] = useState('');
     const [aboutErr, setAboutErr] = useState('');
@@ -33,17 +32,11 @@ function UpdateGroupForm({ groups }) {
         return /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/.test(str);
     }
 
-    // useEffect(() => {
-    //     dispatch(getOneGroup(groupId)).then(response => {
-    //       setName(response.group.name);
-    //       setAbout(response.group.about);
-    //       setType(response.group.type);
-    //       setGroupPrivate(response.group.private);
-    //       setCity(response.group.city);
-    //       setState(response.group.state);
-    //       setGroupIds(response.group.id);
-    //     });
-    //   }, [dispatch, groupId]);
+    if(!sessionUser){history.push(`/`)}
+
+    useEffect(() => {
+        dispatch(getOneGroup(groupId))
+    }, [dispatch, groupId]);
 
     useEffect(() => {
         if (!name.length) { setNameErr('Name is required');
@@ -107,7 +100,7 @@ function UpdateGroupForm({ groups }) {
 
     return (
         <div className='main-group'>
-    <div className='group-title'>Edit A Group</div>
+    <div className='group-title'>Update your Group</div>
 
     <div className='backend-errors-group'>{backEndErrors}</div>
 
@@ -121,6 +114,7 @@ function UpdateGroupForm({ groups }) {
                         type='text'
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        placeholder='Input New Group Name Please'
                     />
                 </div>
                 <div className='input-error-group'>
@@ -135,6 +129,7 @@ function UpdateGroupForm({ groups }) {
                         type='text'
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
+                        placeholder='City'
                     />
                 </div>
                 <div className='input-error-group'>
@@ -149,6 +144,7 @@ function UpdateGroupForm({ groups }) {
                         type='text'
                         value={state}
                         onChange={(e) => setState(e.target.value)}
+                        placeholder='State'
                     />
                 </div>
                 <div className='input-error-group'>
@@ -163,6 +159,7 @@ function UpdateGroupForm({ groups }) {
                         type='text'
                         value={prevImg}
                         onChange={(e) => setPrevImg(e.target.value)}
+                        placeholder='Image URL'
                     />
                 </div>
                 <div className='input-error-group'>
@@ -214,6 +211,7 @@ function UpdateGroupForm({ groups }) {
                         maxLength={200}
                         value={about}
                         onChange={(e) => setAbout(e.target.value)}
+                        placeholder='Please input more than 50 characters'
                     />
                 </div>
                 <div className='input-error-group'>
