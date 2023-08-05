@@ -23,7 +23,7 @@ const Events = () => {
   let eventsList;
   if (sortedEvents.length > 0) {
     eventsList = sortedEvents.map(event => <EventInfo key={event.id} event={event} />);
-    
+
   } else {
     eventsList = (
       <>
@@ -35,10 +35,12 @@ const Events = () => {
 
   return (
     <div className='general-main'>
-      <div className='groups-inner-container-to-links'>
-        <Link className='general-title' to={'/events'}>Events</Link>
-        <Link className='general-title' to={'/groups'}>Groups</Link>
-      </div>
+
+         <div className='links-container'>
+            <Link className='events-link' to={'/events'}>Events</Link>
+            <Link className='groups-link' to={'/groups'}>Groups</Link>
+         </div>
+      <h1>Events in Meetup</h1>
       <div className='groupList'>
         {eventsList}
       </div>

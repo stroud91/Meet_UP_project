@@ -19,20 +19,24 @@ function EventInfo({ event }) {
 
     return (
         <Link className='detail-link' to={`/events/${event.id}`}>
-            <div className='event-listing'>
-                <div className='listing-image-container'>
-                    <img className='listing-img' src={event.previewImage} alt={event.name} />
-                </div>
-                <div className='event-info'>
-                    <div className='event-date'>{`${processDate(event.startDate).toUpperCase()} · ${processTime(event.startDate)}`}</div>
-                    <div className='event-title'>Event: {event.name}</div>
-                    <div className='event-location'>Location: {event.Venue.city} , {event.Venue.state}</div>
-                    <div className='event-description'>{event.description}</div>
-                    <div className='event-organizer'>Group: {event.Group.name}</div>
-                </div>
+          <div className='event-listing'>
+            <div className='listing-image-container'>
+              <img className='listing-img' src={event.previewImage} alt={event.name} />
             </div>
+            <div className='event-info'>
+              <div className='event-date'>{`${processDate(event.startDate).toUpperCase()} · ${processTime(event.startDate)}`}</div>
+              <div className='event-title'>Event: {event.name}</div>
+              <div className='event-location'>Location: {event.Venue.city} , {event.Venue.state}</div>
+              <div className='event-description'>{event.description}</div>
+              <div className='event-group-organizer'>
+                <span className='event-organizer'>Organizer:</span>
+                <span className='event-group'>Group: {event.Group.name}</span>
+              </div>
+            </div>
+            <div className="event-info-separator"></div>
+          </div>
         </Link >
-    )
+      )
 }
 
 export default EventInfo;
