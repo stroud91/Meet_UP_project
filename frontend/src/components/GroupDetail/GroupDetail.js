@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './GroupDetail.css'
 
 function GroupDetail({ group}) {
-    
+
     const dispatch = useDispatch();
     const groupEvents = useSelector(state => state.events.groupList);
 
@@ -30,7 +30,7 @@ function GroupDetail({ group}) {
                     </div>
                     <div className='group-members'>
                     <div className='numMembers'>Members: {group.numMembers}</div>
-                    <div className='event-info'>
+                    <div className='event-infos'>
                     {groupEvents?.length} Events  · {group.private ? 'Private' : 'Public'} Group
                     </div>
                 </div>

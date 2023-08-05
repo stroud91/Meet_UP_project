@@ -1,13 +1,119 @@
-.groupInputField {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical;
-    font-size: 14px;
-    color: black;
+.groupInputField,
+.groupInputDropdown {
+    display: flex;
+    justify-content: left;
+    border: 1px solid rgb(211, 211, 211);
+    width: 50%;
+    height: 35px;
+    border-radius: 10px;
+    margin-top: 1px;
+}
+.groupMain {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 1000px;
+    margin: 10px;
+    margin-left: 100px;
+    margin-top: 5px;
 }
 .groupLoginInput {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+}
 
+.groupTitle {
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    color: #007BFF;
+    margin-bottom: 25px;
+}
+
+.groupInputHeader, .groupCaption {
+    margin-bottom: 10px;
+    color: black;
+    font-weight: bold;
+}
+
+.groupInputInnerDiv {
+    border-bottom: 1px solid black;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+.groupLoginButtonDiv {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+.groupInputError {
+    color: rgb(148, 0, 27);
+    text-align: left;
+    font-weight: bold;
+}
+
+.groupInputInnerDiv {
+    width: 90%;
+    margin-bottom: 20px;
+}
+
+.groupInputField:hover,
+.groupInputDropdown:hover {
+    border: 1px solid rgb(52, 51, 51)
+}
+
+.groupInputField:focus,
+.groupInputDropdown:focus {
+    border: 1px solid rgb(0, 130, 148)
+}
+
+.groupInputBlock {
+    justify-content: flex-start;
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: 10px;
+    width: 100%;
+    height: 120px;
+    resize: none;
+}
+
+.groupInputBlock:hover {
+    border: 1px solid rgb(52, 51, 51)
+}
+
+.groupInputBlock:focus {
+    border: 1px solid rgb(0, 130, 148)
+}
+
+
+.groupLoginInput {
+    display: flex;
+    justify-content: flex-start;
+    width: 60%;
+}
+
+.groupOption {
+    background-color: rgb(214, 255, 255);
+}
+
+.groupLoginButton {
+    margin-top: 15px;
+    height: 40px;
+    width: 20%;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(246, 64, 96);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+.groupLoginButton:hover {
+    background-color: rgb(246, 133, 154)
+}
+
+.groupLoginButton:active {
+    transform: scale(0.95);
 }
