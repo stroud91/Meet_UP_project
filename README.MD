@@ -20,7 +20,7 @@ All endpoints that require a current user to be logged in.
   * Headers:
     * Content-Type: application/json
   * Body:
-a b c d
+
     ```json
     {
       "message": "Authentication required"
