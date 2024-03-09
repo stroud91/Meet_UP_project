@@ -72,7 +72,7 @@ Returns the information about the current user that is logged in.
       }
     }
     ```
-a
+a a
 * Successful Response when there is no logged in user
   * Status Code: 200
   * Headers:
